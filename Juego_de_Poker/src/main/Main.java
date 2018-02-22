@@ -11,6 +11,7 @@ import deck.Deck;
  * 
  * @author Becerra Gutiérrez, Jesús Daniel
  * @author Suárez Delgado, Yared
+ * @author Núñez Delgado, Eleazar
  */
 
 // This class will be the launcher
