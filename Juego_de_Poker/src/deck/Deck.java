@@ -1,5 +1,6 @@
 package deck;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Arrays;
  */
 public class Deck {
 
-    int[][] deck = new int[4][13];
+    private ArrayList<ArrayList<Integer>> deck = new ArrayList<>();
 
     public Deck() {
         this.deck = load_deck();
@@ -22,23 +23,24 @@ public class Deck {
     /**
      * This method sets values to the attribute deck once Deck Object is
      * initializated.
-     *
-     * @return deck_loaded as <code>Integer</code>
+     * Values setted into deck are Integer
+     * @return deck_loaded as <code>ArrayList[][]</code>
      */
-    private static int[][] load_deck() {
-        int[][] deck_loaded = new int[4][13];
-        for (int i = 0; i < deck_loaded.length; i++) {
-            int valor = 1;
-            for (int j = 0; j < deck_loaded[i].length; j++) {
-                deck_loaded[i][j] = valor;
-                ++valor;
+    private static ArrayList<ArrayList<Integer>> load_deck() {
+        ArrayList<ArrayList<Integer>> deck_loaded = new ArrayList<>();
+        
+        for (int i = 0; i <= 4; i++) {
+            deck_loaded.add( new ArrayList() );
+            for (int j = 0; j <= 13; j++) {
+                deck_loaded.get(i).add(j);
             }
         }
+        
         return deck_loaded;
     }
-
-    private String watch_deck(int[][] deck) {
-        return Arrays.deepToString(deck);
+    
+    private static String watch_deck(ArrayList<ArrayList<Integer>> deck) {
+        return Arrays.deepToString(deck.toArray());
     }
 
 }
