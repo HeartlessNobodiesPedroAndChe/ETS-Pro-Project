@@ -6,6 +6,7 @@ import java.util.Arrays;
  * 
  * @version 0.1 Early
  * @author Becerra Gutiérrez, Jesús Daniel
+ * @author Suárez Delgado, Yared
  */
 
 // Antes que nada recordad añadir vuestros nombres a @author
