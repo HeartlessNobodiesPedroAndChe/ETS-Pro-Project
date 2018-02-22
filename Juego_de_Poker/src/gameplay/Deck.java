@@ -1,4 +1,4 @@
-package deck;
+package gameplay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,8 +30,10 @@ public class Deck {
         ArrayList<ArrayList<Integer>> deck_loaded = new ArrayList<>();
         
         for (int i = 0; i <= 4; i++) {
+            // First of all we set 4 ArrayLists (each for Suit in the deck)
             deck_loaded.add( new ArrayList() );
             for (int j = 0; j <= 13; j++) {
+                // Then we set in every Suit ( deck_loaded.get(i) ) the value ( *.add(j) )
                 deck_loaded.get(i).add(j);
             }
         }
@@ -39,6 +41,11 @@ public class Deck {
         return deck_loaded;
     }
     
+    /**
+     * 
+     * @param deck as <code>ArrayList "ArrayList "Integer" "</code>
+     * @return 
+     */
     private static String watch_deck(ArrayList<ArrayList<Integer>> deck) {
         return Arrays.deepToString(deck.toArray());
     }

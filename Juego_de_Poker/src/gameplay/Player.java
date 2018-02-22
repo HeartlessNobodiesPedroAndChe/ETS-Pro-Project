@@ -1,4 +1,4 @@
-package deck;
+package gameplay;
 
 import java.util.List;
 

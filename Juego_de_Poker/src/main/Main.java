@@ -5,7 +5,7 @@
  */
 package main;
 
-import deck.Deck;
+import gameplay.Deck;
 
 /**
  *
