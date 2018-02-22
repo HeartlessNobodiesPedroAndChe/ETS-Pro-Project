@@ -10,7 +10,6 @@ import java.util.Arrays;
  * @author Núñez Delgado, Eleazar
  * @author Borges Santamaría, Pedro
  */
-// Antes que nada recordad añadir vuestros nombres a @author
 public class Deck {
 
     int[][] deck = new int[4][13];
