@@ -32,7 +32,7 @@ public class Player {
         for (String[] handhold_card : handhold_cards) {
             cards += "Suit: " + handhold_card[0] + "\nCard: " + handhold_card[1] + "\n";
         }
-        return "Player " + name + " :\n" + cards;
+        return "Player " + name + ":\n" + cards;
     }
 
     public String getName() {
@@ -45,6 +45,14 @@ public class Player {
 
     public String[][] getHandhold_cards() {
         return handhold_cards;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
     
 }

@@ -1,7 +1,6 @@
 package gameplay;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -26,7 +25,7 @@ public class Deck {
      * Values setted into deck are Integer.
      * @return deck_loaded as <code>ArrayList[][]</code>
      */
-    private static ArrayList<ArrayList<Integer>> load_deck() {
+    private ArrayList<ArrayList<Integer>> load_deck() {
         ArrayList<ArrayList<Integer>> deck_loaded = new ArrayList<>();
         
         for (int i = 0; i < 4; i++) {
@@ -51,54 +50,172 @@ public class Deck {
         
         // Since we are playing 5 Card Draw Poker we just need to do this loop 5 times
         for (int i = 0; i < 5; i++) {
-            
             // We get random suit (0 - number of suits index)
-            int suit = randomGenerator.nextInt(deck.size());
-            
-            // Then we set that suit with real value
-            switch( suit ) {
-                    case 0:
-                        handhold_cards[i][0] = "Clubs";
-                        break;
-                    case 1:
-                        handhold_cards[i][0] = "Spades";
-                        break;
-                    case 2:
-                        handhold_cards[i][0] = "Hearts";
-                        break;
-                    case 3:
-                        handhold_cards[i][0] = "Diamonds";
-                        break;
-            }
-            
-            // Same code as above (0 - Number of cards index)
+             int suit = randomGenerator.nextInt(deck.size());
+             handhold_cards[i][0] = setSuit(suit);
+             
+             // Same code as above (0 - Number of cards index)
             int card = randomGenerator.nextInt(deck.get(suit).size());
-            
-            // And setting real value
-            switch( deck.get(suit).get(card) ) {
-                case 1:
-                    handhold_cards[i][1] = "Ace";
-                    break;
-                case 11:
-                    handhold_cards[i][1] = "Jack";
-                    break;
-                case 12:
-                    handhold_cards[i][1] = "Queen";
-                    break;
-                case 13:
-                    handhold_cards[i][1] = "King";
-                    break;
-                // Default will get any other value (2 - 10)
-                default:
-                    handhold_cards[i][1] = Integer.toString(card + 1);
-            }
+            handhold_cards[i][1] = setCard(card);
             
             // Removing dealed card from Main Deck
             deck.get(suit).remove(card);
         }
         return handhold_cards;
     }
+    
+    /**
+     * This method will parse numbers into Suit and Card.
+     * @param handhold_cards The array to change.
+     * @return handhold_cards as <code>String[][]</code>
+     */
+    public String[][] parseArray(int[][] handhold_cards) {
+        String[][] parsed_cards = new String[handhold_cards.length][2];
+        
+        for (int i = 0; i < handhold_cards.length; i++) {
+            
+            // Then we set that suit with real value
+            switch ( handhold_cards[i][0] ) {
+                case 0:
+                    parsed_cards[i][0] = "Clubs";
+                    break;
+                case 1:
+                    parsed_cards[i][0] = "Spades";
+                    break;
+                case 2:
+                    parsed_cards[i][0] = "Hearts";
+                    break;
+                case 3:
+                    parsed_cards[i][0] = "Diamonds";
+                    break;
+            }
+            
+            // And setting real value
+            switch ( handhold_cards[i][1] ) {
+                case 0:
+                    parsed_cards[i][1] = "Ace";
+                    break;
+                case 10:
+                    parsed_cards[i][1] = "Jack";
+                    break;
+                case 11:
+                    parsed_cards[i][1] = "Queen";
+                    break;
+                case 12:
+                    parsed_cards[i][1] = "King";
+                    break;
+                // Default will get any other value (2 - 10)
+                default:
+                    parsed_cards[i][1] = Integer.toString(handhold_cards[i][1] + 1);
+            }
+        }
+        return parsed_cards;
+    }
+    
+    /**
+     * This method will parse Suit and Card into Numbers.
+     * @param handhold_cards The array to change.
+     * @return handhold_cards as <code>String[][]</code>
+     */
+    public int[][] parseArray(String[][] handhold_cards) {
+        int[][] parsed_cards = new int[handhold_cards.length][2];
+        
+        // We get the length of handhold so we make sure we get every card
+        for (int i = 0; i < handhold_cards.length; i++) {
+            
+            // We set suit number by suit String
+            switch ( handhold_cards[i][0] ) {
+                case "Clubs":
+                    parsed_cards[i][0] = 0;
+                    break;
+                case "Spades":
+                    parsed_cards[i][0] = 1;
+                    break;
+                case "Hearts":
+                    parsed_cards[i][0] = 2;
+                    break;
+                case "Diamonds":
+                    parsed_cards[i][0] = 3;
+                    break;
+            }
+            
+            // We set card number by card String
+            switch ( handhold_cards[i][1] ) {
+                case "Ace":
+                    parsed_cards[i][1] = 0;
+                    break;
+                case "Jack":
+                    parsed_cards[i][1] = 10;
+                    break;
+                case "Queen":
+                    parsed_cards[i][1] = 11;
+                    break;
+                case "King":
+                    parsed_cards[i][1] = 12;
+                    break;
+                default:
+                    parsed_cards[i][1] = Integer.parseInt(handhold_cards[i][1]) - 1;
+            }
+            
+        }
+        return parsed_cards;
+    }
+    
+    /**
+     * Simple method to get Suit Name by Number
+     * @param suit The suit number as <code>Integer</code>
+     * @return SuitName as <code>String</code>
+     */
+    private String setSuit(int suit) {
+        String suitName = "";
+        
+        // Then we set that suit with real value
+        switch (suit) {
+            case 0:
+                suitName = "Clubs";
+                break;
+            case 1:
+                suitName = "Spades";
+                break;
+            case 2:
+                suitName = "Hearts";
+                break;
+            case 3:
+                suitName = "Diamonds";
+                break;
+        }
+        return suitName;
+    }
+    
+    /**
+     * Simple method to get Card Name by Number
+     * @param suit The suit number as <code>Integer</code>
+     * @return CardName as <code>String</code>
+     */
+    private String setCard(int card) {
+        String CardName = "";
 
+        switch (card) {
+            case 0:
+                CardName = "Ace";
+                break;
+            case 10:
+                CardName = "Jack";
+                break;
+            case 11:
+                CardName = "Queen";
+                break;
+            case 12:
+                CardName = "King";
+                break;
+            // Default will get any other value (2 - 10)
+            default:
+                CardName = Integer.toString(card + 1);
+        }
+            
+        return CardName;
+    }
+    
     public ArrayList<ArrayList<Integer>> getDeck() {
         return deck;
     }
