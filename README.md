@@ -15,6 +15,13 @@ El plan es hacer un juego de póker con interfaz gráfica, lo primero será term
 
 ## ¡¡Ánimo a todos!!
 
+### Reparto de Trabajo
+
+* Baraja Digital - LeCuay
+* Sistema de Apuestas - EleazarN95
+* Sistema de cambio de cartas - Yared Suárez Delgado
+* Sistema de figuras y partida (señalar quién gana) - Zenk25
+
 ### Autores
 
 * LeCuay
