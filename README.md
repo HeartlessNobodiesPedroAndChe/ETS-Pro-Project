@@ -14,3 +14,10 @@ El plan es hacer un juego de póker con interfaz gráfica, lo primero será term
 * Interfaz gráfica para hacer el sistema más ameno (básicamente será pasar de consola a interfaz).
 
 ## ¡Ánimo a todos!
+
+### Autores
+
+* LeCuay
+* EleazarN95
+* Yared Suárez Delgado
+* Zenk25
