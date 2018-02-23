@@ -1,6 +1,8 @@
 package gameplay;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /**
  *
@@ -45,12 +47,13 @@ public class Deck {
      */
     public String[][] deal_cards() {
         String[][] handhold_cards = new String[5][2];
+        Random randomGenerator = new Random();
         
         // Since we are playing 5 Card Draw Poker we just need to do this loop 5 times
         for (int i = 0; i < 5; i++) {
             
             // We get random suit (0 - number of suits index)
-            int suit = (int)( Math.random() * deck.size() );
+            int suit = randomGenerator.nextInt(deck.size());
             
             // Then we set that suit with real value
             switch( suit ) {
@@ -69,10 +72,10 @@ public class Deck {
             }
             
             // Same code as above (0 - Number of cards index)
-            int card = (int)( Math.random() * deck.get(suit).size() );
+            int card = randomGenerator.nextInt(deck.get(suit).size());
             
             // And setting real value
-            switch( card + 1 ) {
+            switch( deck.get(suit).get(card) ) {
                 case 1:
                     handhold_cards[i][1] = "Ace";
                     break;
