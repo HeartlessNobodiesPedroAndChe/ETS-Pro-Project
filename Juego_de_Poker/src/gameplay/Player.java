@@ -27,12 +27,15 @@ public class Player {
      */
     public String showPlayerCards() {
         String cards = "";
+        int card_number = 1;
         
-        // We get Suit and Card for every card in handhold array
+        // We get Card and Suit for every card in handhold array.
         for (String[] handhold_card : handhold_cards) {
-            cards += "Suit: " + handhold_card[0] + "\nCard: " + handhold_card[1] + "\n";
+          cards += "Card nº " + card_number + ": " + handhold_card[1] + " " + handhold_card[0] + "\n";
+          card_number++;
         }
-        return "Player " + name + ":\n" + cards;
+        
+        return cards;
     }
 
     public String getName() {
