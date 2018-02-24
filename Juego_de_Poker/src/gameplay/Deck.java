@@ -67,24 +67,25 @@ public class Deck {
     /**
      * This method will return a new set of cards for the Player.
      * @param handhold_cards Player's cards to change
-     * @param indexes The indexes of <code>handhold_cards</code> 
+     * @param indexes The indexes of <code>handhold_cards</code> as
+     * <code>{@literal ArrayList<Integer>}</code>
      * @return new handhold_cards as <code>String[][]</code>
      */
-    public String[][] change_cards(String[][] handhold_cards, int... indexes) {
+    public String[][] change_cards(String[][] handhold_cards, ArrayList<Integer> indexes) {
         
         Random randomGenerator = new Random();
         
-        for (int i = 0; i < indexes.length; i++) {
+        for (int i = 0; i < indexes.size(); i++) {
             
             // We set random number for suit
             int suit = randomGenerator.nextInt(deck.size());
             // And we give that value to the Player's cards
-            handhold_cards[indexes[i]][0] = setSuit(suit);
+            handhold_cards[indexes.get(i)][0] = setSuit(suit);
             
             // We set random number for card
             int card = randomGenerator.nextInt(deck.get(suit).size());
             // Adn we give that value to the Player's cards
-            handhold_cards[indexes[i]][1] = setCard(card);
+            handhold_cards[indexes.get(i)][1] = setCard(card);
             
             // Then we remove that card from the Deck
             deck.get(suit).remove(card);
