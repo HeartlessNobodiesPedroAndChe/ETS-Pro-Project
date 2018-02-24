@@ -56,7 +56,7 @@ public class Deck {
              
              // Same code as above (0 - Number of cards index)
             int card = randomGenerator.nextInt(deck.get(suit).size());
-            handhold_cards[i][1] = setCard(card);
+            handhold_cards[i][1] = setCard(suit, card);
             
             // Removing dealed card from Main Deck
             deck.get(suit).remove(card);
@@ -85,7 +85,7 @@ public class Deck {
             // We set random number for card
             int card = randomGenerator.nextInt(deck.get(suit).size());
             // Adn we give that value to the Player's cards
-            handhold_cards[indexes.get(i)][1] = setCard(card);
+            handhold_cards[indexes.get(i)][1] = setCard(suit, card);
             
             // Then we remove that card from the Deck
             deck.get(suit).remove(card);
@@ -222,10 +222,10 @@ public class Deck {
      * @param suit The suit number as <code>Integer</code>
      * @return CardName as <code>String</code>
      */
-    private String setCard(int card) {
+    private String setCard(int suit, int card) {
         String CardName;
 
-        switch (card) {
+        switch ( deck.get(suit).get(card) ) {
             case 0:
                 CardName = "Ace";
                 break;
@@ -240,7 +240,7 @@ public class Deck {
                 break;
             // Default will get any other value (2 - 10)
             default:
-                CardName = Integer.toString(card + 1);
+                CardName = Integer.toString(deck.get(suit).get(card) + 1);
         }
             
         return CardName;
