@@ -4,26 +4,49 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- *
+ * Useful <b>Virtual Deck</b> that is loaded once you create {@code Deck Object}
+ * or loaded by deck ({@literal ArrayList<ArrayList<Integer>>}) argument.<br><br>
+ * <b>Virtual Deck</b> basic methods includes <b>loading cards</b> (new Virtual Deck),
+ * <b>changing them</b> and <b>dealing them</b>.
+ * 
  * @version 0.1 Early
  * @author Becerra Gutiérrez, Jesús Daniel
  * @author Suárez Delgado, Yared
  * @author Núñez Delgado, Eleazar
  * @author Borges Santamaría, Pedro
+ * @see ArrayList
+ * @see Player
  */
 public class Deck {
-
+    
+    /**
+     * The {@code Deck Object} is based on a 2D ArrayList, first one for Suits
+     * and second one for Cards in Suit.
+     */
     private ArrayList<ArrayList<Integer>> deck = new ArrayList<>();
-
+    
+    /**
+     * Automatic loading deck Constructor for <b>Virtual Deck</b>.
+     */
     public Deck() {
         // We load a new Deck
         deck = load_deck();
+    }
+    
+    /**
+     * This method set deck argument as <b>Virtual Deck</b>.
+     * @param deck The deck you want to play with as
+     * <code>{@literal ArrayList<ArrayList<Integer>>}</code>
+     */
+    public Deck(ArrayList<ArrayList<Integer>> deck) {
+        // We load the deck argument
+        this.deck = deck;
     }
 
     /**
      * This method sets values to the attribute deck once Deck Object is initializated.<br>
      * Values setted into deck are Integer.
-     * @return deck_loaded as <code>ArrayList[][]</code>
+     * @return deck_loaded as <code>{@literal ArrayList<ArrayList<Integer>>}</code>
      */
     private ArrayList<ArrayList<Integer>> load_deck() {
         ArrayList<ArrayList<Integer>> deck_loaded = new ArrayList<>();
@@ -49,15 +72,13 @@ public class Deck {
         Random randomGenerator = new Random();
         
         // Since we are playing 5 Card Draw Poker we just need to do this loop 5 times
-        for (int i = 0; i < 5; i++) {
+        for (String[] handhold_card : handhold_cards) {
             // We get random suit (0 - number of suits index)
-             int suit = randomGenerator.nextInt(deck.size());
-             handhold_cards[i][0] = setSuit(suit);
-             
-             // Same code as above (0 - Number of cards index)
+            int suit = randomGenerator.nextInt(deck.size());
+            handhold_card[0] = setSuit(suit);
+            // Same code as above (0 - Number of cards index)
             int card = randomGenerator.nextInt(deck.get(suit).size());
-            handhold_cards[i][1] = setCard(suit, card);
-            
+            handhold_card[1] = setCard(suit, card);
             // Removing dealed card from Main Deck
             deck.get(suit).remove(card);
         }
@@ -84,7 +105,7 @@ public class Deck {
             
             // We set random number for card
             int card = randomGenerator.nextInt(deck.get(suit).size());
-            // Adn we give that value to the Player's cards
+            // And we give that value to the Player's cards
             handhold_cards[indexes.get(i)][1] = setCard(suit, card);
             
             // Then we remove that card from the Deck
@@ -95,7 +116,38 @@ public class Deck {
     }
     
     /**
-     * This method will parse numbers into Suit and Card.
+     * This method will return a new set of cards for the Player.
+     * @param handhold_cards Player's cards to change
+     * @param indexes The indexes of <code>handhold_cards</code> as <code>int[]</code>
+     * @return new handhold_cards as <code>String[][]</code>
+     */
+    public String[][] change_cards(String[][] handhold_cards, int... indexes) {
+        
+        Random randomGenerator = new Random();
+        
+        for (int i = 0; i < indexes.length; i++) {
+            
+            // We set random number for suit
+            int suit = randomGenerator.nextInt(deck.size());
+            // And we give that value to the Player's cards
+            handhold_cards[indexes[i]][0] = setSuit(suit);
+            
+            // We set random number for card
+            int card = randomGenerator.nextInt(deck.get(suit).size());
+            // And we give that value to the Player's cards
+            handhold_cards[indexes[i]][1] = setCard(suit, card);
+            
+            // Then we remove that card from the Deck
+            deck.get(suit).remove(card);
+        }
+        
+        return handhold_cards;
+    }
+    
+    /**
+     * This method will parse numbers into Suit and Card.<br>
+     * It gets {@code handhold_cards[][]} as {@code String[][]}
+     * and returns it as {@code int[][]}.
      * @param handhold_cards The array to change.
      * @return handhold_cards as <code>String[][]</code>
      */
@@ -143,7 +195,9 @@ public class Deck {
     }
     
     /**
-     * This method will parse Suit and Card into Numbers.
+     * This method will parse Suit and Card into Numbers.<br>
+     * It gets {@code handhold_cards[][]} as {@code int[][]}
+     * and returns it as {@code String[][]}.
      * @param handhold_cards The array to change.
      * @return handhold_cards as <code>String[][]</code>
      */
