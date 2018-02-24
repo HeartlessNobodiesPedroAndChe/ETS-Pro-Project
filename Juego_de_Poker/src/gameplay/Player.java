@@ -54,5 +54,9 @@ public class Player {
     public void setMoney(double money) {
         this.money = money;
     }
+
+    public void setHandhold_cards(String[][] handhold_cards) {
+        this.handhold_cards = handhold_cards;
+    }
     
 }

@@ -40,7 +40,7 @@ public class Main {
         p4 = new Player("Pedro", 1.03, deck.deal_cards());
         System.out.println(p4.showPlayerCards());
         
-        System.out.println("Unused cards:\n" + deck.getDeck());
+        System.out.println("Unused cards:\n" + deck.toString());
     }
 
 }

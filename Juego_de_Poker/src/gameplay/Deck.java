@@ -21,7 +21,7 @@ public class Deck {
     }
 
     /**
-     * This method sets values to the attribute deck once Deck Object is initializated. <br>
+     * This method sets values to the attribute deck once Deck Object is initializated.<br>
      * Values setted into deck are Integer.
      * @return deck_loaded as <code>ArrayList[][]</code>
      */
@@ -61,6 +61,35 @@ public class Deck {
             // Removing dealed card from Main Deck
             deck.get(suit).remove(card);
         }
+        return handhold_cards;
+    }
+    
+    /**
+     * This method will return a new set of cards for the Player.
+     * @param handhold_cards Player's cards to change
+     * @param indexes The indexes of <code>handhold_cards</code> 
+     * @return new handhold_cards as <code>String[][]</code>
+     */
+    public String[][] change_cards(String[][] handhold_cards, int... indexes) {
+        
+        Random randomGenerator = new Random();
+        
+        for (int i = 0; i < indexes.length; i++) {
+            
+            // We set random number for suit
+            int suit = randomGenerator.nextInt(deck.size());
+            // And we give that value to the Player's cards
+            handhold_cards[indexes[i]][0] = setSuit(suit);
+            
+            // We set random number for card
+            int card = randomGenerator.nextInt(deck.get(suit).size());
+            // Adn we give that value to the Player's cards
+            handhold_cards[indexes[i]][1] = setCard(card);
+            
+            // Then we remove that card from the Deck
+            deck.get(suit).remove(card);
+        }
+        
         return handhold_cards;
     }
     
@@ -162,7 +191,7 @@ public class Deck {
     }
     
     /**
-     * Simple method to get Suit Name by Number
+     * Simple method to get Suit Name by Number.
      * @param suit The suit number as <code>Integer</code>
      * @return SuitName as <code>String</code>
      */
@@ -188,12 +217,12 @@ public class Deck {
     }
     
     /**
-     * Simple method to get Card Name by Number
+     * Simple method to get Card Name by Number.
      * @param suit The suit number as <code>Integer</code>
      * @return CardName as <code>String</code>
      */
     private String setCard(int card) {
-        String CardName = "";
+        String CardName;
 
         switch (card) {
             case 0:
@@ -216,8 +245,19 @@ public class Deck {
         return CardName;
     }
     
+    /**
+     * This method will return the entire ArrayList of the deck.<br>
+     * Please, remember deck works like: {@literal ArrayList<ArrayList<Integer>>}.<br>
+     * Where first ArrayList is Suit and the one inside is Card.
+     * @return deck as <code>{@literal ArrayList<ArrayList<Integer>>}</code>
+     */
     public ArrayList<ArrayList<Integer>> getDeck() {
         return deck;
+    }
+    
+    @Override
+    public String toString() {
+        return deck.toString();
     }
     
 }
