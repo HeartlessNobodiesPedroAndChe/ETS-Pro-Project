@@ -15,6 +15,7 @@ public class Player {
     private String name;
     private double money = 0;
     private String[][] handhold_cards;
+    private boolean isDealer;
     private boolean isPlaying;
     
     public Player(String name, double money, String[][] handhold_cards) {
@@ -82,6 +83,14 @@ public class Player {
 
     public void setHandhold_cards(String[][] handhold_cards) {
         this.handhold_cards = handhold_cards;
+    }
+
+    public boolean getIsDealer() {
+        return isDealer;
+    }
+
+    public void setIsDealer(boolean isDealer) {
+        this.isDealer = isDealer;
     }
     
 }
