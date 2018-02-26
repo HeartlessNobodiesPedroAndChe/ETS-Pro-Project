@@ -13,16 +13,31 @@ public class Player {
     
     // Variables
     private String name;
-    private double money = 0;
+    private double money = 10;
     private String[][] handhold_cards;
-    private boolean isDealer;
-    private boolean isPlaying;
+    private boolean isDealer = false;
+    private boolean isPlaying = false;
     
+    /**
+     * The empty constructor generates by default:<br>
+     * {@code double money = 10;}<br>
+     * {@code isDealer = false;}<br>
+     * {@code isPlaying = false;}
+     */
+    public Player() {}
+    
+    /**
+     * This constructor generates by default:<br>
+     * {@code isDealer = false;}
+     * {@code isPlaying = false;}
+     * @param name The name of the Player
+     * @param money The amount richness
+     * @param handhold_cards The cards this Player owns
+     */
     public Player(String name, double money, String[][] handhold_cards) {
         this.name = name;
         this.money = money;
         this.handhold_cards = handhold_cards;
-        isPlaying = false;
     }
     
     /**
@@ -61,6 +76,24 @@ public class Player {
         this.isPlaying = isPlaying;
     }
     
+    /**
+     * Simple method to change isPlaying to its negative.<br>
+     * For example:<br>
+     * {@code if isDealer == true; isDealer = false;}<br>
+     * {@code if isDealer == false; isDealer = true;}
+     */
+    public void setDealer() {
+        isDealer = !isDealer;
+    }
+    
+     /**
+     * Simple method to manually change boolean <code>isDealer</code>.
+     * @param isDealer The boolean to change Payer's isDealer
+     */
+    public void setManualDealer(boolean isDealer) {
+        this.isDealer = isDealer;
+    }
+    
     public String getName() {
         return name;
     }
@@ -87,10 +120,6 @@ public class Player {
 
     public boolean getIsDealer() {
         return isDealer;
-    }
-
-    public void setIsDealer(boolean isDealer) {
-        this.isDealer = isDealer;
     }
     
 }

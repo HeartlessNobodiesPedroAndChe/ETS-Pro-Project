@@ -5,8 +5,7 @@
  */
 package main;
 
-import gameplay.Deck;
-import gameplay.Player;
+import gameplay.*;
 
 /**
  *
@@ -19,27 +18,17 @@ import gameplay.Player;
 public class Main {
 
     public static void main(String[] args) {
+        
         // Initializating deck object
         Deck deck = new Deck();
         
         // Initializating Players
-        Player p1, p2, p3, p4;
+        Player p1 = new Player(), p2 = new Player(), p3 = new Player(), p4 = new Player();
         
-        /* - - - Every method showPlayerCards() is just for testing - - - */
-        /* - - - As well as Unused cards print - - - */
+        // Initializating Game with Players and Deck
+        Game game = new Game(deck, p1, p2, p3, p4);
         
-        p1 = new Player("Jesús", 0, deck.deal_cards());
-        System.out.println(p1.showPlayerCards());
-        
-        p2 = new Player("Yared", 5.2, deck.deal_cards());
-        System.out.println(p2.showPlayerCards());
-        
-        p3 = new Player("Eleazar", 10, deck.deal_cards());
-        System.out.println(p3.showPlayerCards());
-        
-        p4 = new Player("Pedro", 1.03, deck.deal_cards());
-        System.out.println(p4.showPlayerCards());
-        
+        // Showing unused cards
         System.out.println("Unused cards:\n" + deck.toString());
     }
 
