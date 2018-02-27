@@ -28,6 +28,8 @@ public class Main {
         // Initializating Game with Players and Deck
         Game game = new Game(deck, p1, p2, p3, p4);
         
+        game.game_start();
+        
         // Showing unused cards
         System.out.println("Unused cards:\n" + deck.toString());
     }
