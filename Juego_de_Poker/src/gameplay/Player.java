@@ -59,6 +59,19 @@ public class Player {
         
         return cards;
     }
+    /**
+     * HOW TO NAME POKER HANDS IN ENGLISH (RANKED FROM LOWEST TO HIGHEST):
+     * CARTA ALTA: HIGH CARD
+     * PAREJA: PAIR
+     * DOBLE PAREJA: TWO PAIRS
+     * TRIO: THREE OF A KIND
+     * ESCALERA NORMAL: STRAIGHT
+     * 5 CARTAS MISMO PALO: FLUSH
+     * FULL: FULL HOUSE
+     * POKER: POKER (FOUR OF A KIND)
+     * ESCALERA DE COLOR: STRAIGHT FLUSH
+     * ESCALERA REAL: ROYAL FLUSH
+     */
     public int[][] reorderHandhold_cards (int[][] handhold){
         int aux = 0, exchange = 0;
         boolean organized = false;
