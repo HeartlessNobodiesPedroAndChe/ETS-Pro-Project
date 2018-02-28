@@ -17,8 +17,6 @@ public class Player {
     private String[][] handhold_cards;
     private boolean isDealer = false;
     private boolean isPlaying = false;
-    private int score;
-    private static Deck deck = new Deck();
     
     /**
      * The empty constructor generates by default:<br>
@@ -59,102 +57,7 @@ public class Player {
         
         return cards;
     }
-    public int[][] ReOrderHandhold_cards (int[][] handhold){
-        int aux = 0, exchange = 0;
-        boolean organized = false;
-        do{
-        for (int i = 0; i < handhold.length; i++) {
-            for (int j = 1; j < handhold.length; j++) {
-                if(handhold[i][1] < handhold[j][1]){
-                    aux = handhold[i][1];
-                    handhold[i][1] = handhold[j][1];
-                    handhold[j][1] = aux;
-                    exchange++;
-                }
-            }
-            if (exchange == 0) {
-                organized = true;
-            }
-        }
-        exchange = 0;
-        }while(!organized);
-        System.out.print("Cards: ");
-        for (int i = 0; i < handhold.length; i++) {
-            System.out.print(handhold[i][1]+" ");
-        }
-        return handhold;
-    }
-    public String MatchHandPlays(){
-        int[][] handhold = deck.parseArray(handhold_cards);
-        handhold = ReOrderHandhold_cards(handhold);
-        String Play = "";
-        int count = 0, aux = 0;
-        for (int i = 0; i < handhold.length;i++) {
-            if(i+1 < handhold.length){
-                if(handhold[i][1]== handhold[i+1][1]){
-                    Play = SearchSames(handhold,i);
-                }
-                if(handhold[i][1]+1 == handhold[i+1][1]){
-                    Play = SearchFlush(handhold,i);
-                }
-            }
-        }
-        return Play;
-    }
-    public String SearchSames(int[][] handhold,int i){
-        int count = 0;
-        String Play ="";
-        int aux = handhold[i][1];
-        for (int j = 1; j < handhold.length; j++) {
-            if(aux == handhold[j][1]){
-                count++;
-            }
-        }
-        switch(count){
-            case 0:
-                Play = "Pair";
-                if(Play.equals(SearchSames(handhold,i,aux)))
-                    Play = "DoublePair";
-                if("Trio".equals(SearchSames(handhold,i,aux)))
-                    Play = "Full";
-                break;
-            case 1:
-                Play = "Trio";
-                if("Pair".equals(SearchSames(handhold,i,aux)))
-                    Play = "Full";
-                break;
-            case 2: 
-                Play = "Poker";
-                break;
-        }
-        return Play;
-    }
     
-    public String SearchSames(int [][] handhold,int i, int firstpair){
-        int count = 0;
-        String Play = "";
-        for (int j = 1; j < handhold.length; j++) {
-            if(firstpair == handhold[j][1]){
-                count++;
-            }
-        }
-        switch(count){
-            case 0:
-                Play = "Pair";
-                break;
-            case 1:
-                Play = "Trio";
-                break;
-            default: 
-                Play = "";
-                break;
-        }
-        return Play;
-    }
-    
-    public String SearchFlush(int[][] handhold, int i){
-        return "hola";
-    }
     /**
      * Simple method to change isPlaying to its negative.<br>
      * For example:<br>
@@ -202,9 +105,6 @@ public class Player {
     public String[][] getHandhold_cards() {
         return handhold_cards;
     }
-    public int getScore(){
-        return score;
-    }
     
     public void setName(String name) {
         this.name = name;
@@ -216,10 +116,6 @@ public class Player {
 
     public void setHandhold_cards(String[][] handhold_cards) {
         this.handhold_cards = handhold_cards;
-    }
-    
-    public void setScore(int score){
-        this.score = score;
     }
 
     public boolean getIsDealer() {
