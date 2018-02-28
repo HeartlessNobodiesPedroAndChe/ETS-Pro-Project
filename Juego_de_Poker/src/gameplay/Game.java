@@ -87,7 +87,7 @@ public class Game extends Deck {
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
                     changeHand(players[playingPlayerIndex]);
-                    System.out.println(players[playingPlayerIndex].MatchHandPlays());
+                    System.out.println(players[playingPlayerIndex].matchHands());
 
                     // Change to next Player
                     next_player();
