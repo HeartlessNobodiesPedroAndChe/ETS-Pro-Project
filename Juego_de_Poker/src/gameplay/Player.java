@@ -18,7 +18,6 @@ public class Player {
     private boolean isDealer = false;
     private boolean isPlaying = false;
     private int score;
-    private static Deck deck = new Deck();
     
     /**
      * The empty constructor generates by default:<br>
@@ -98,7 +97,7 @@ public class Player {
         return handhold;
     }
     public String matchHands(){
-        int[][] handhold = deck.parseArray(handhold_cards);
+        int[][] handhold = Deck.parseArray(handhold_cards);
         handhold = reorderHandhold_cards(handhold);
         String Play = "";
         int count = 0, aux = 0;
