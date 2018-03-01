@@ -19,6 +19,8 @@ public class Player {
     private String[][] handhold_cards;
     private boolean isDealer = false;
     private boolean isPlaying = false;
+    private boolean isSmallBlind = false;
+    private boolean isBigBlind = false;
     private int score;
     
     /**
@@ -205,6 +207,42 @@ public class Player {
     public void setManualDealer(boolean isDealer) {
         this.isDealer = isDealer;
     }
+    
+    /**
+     * Simple method to change isPlaying to its negative.<br>
+     * For example:<br>
+     * {@code if isSmallBlind == true; isSmallBlind = false;}<br>
+     * {@code if isSmallBlind == false; isSmallBlind = true;}
+     */
+    public void set_SmallBlind() {
+        isSmallBlind = !isSmallBlind;
+    }
+    
+    /**
+     * Simple method to manually change boolean <code>isSmallBlind</code>.
+     * @param isDealer The boolean to change Player's isSmallBlind
+     */
+    public void setManualSmallBlind(boolean isDealer) {
+        this.isSmallBlind = isSmallBlind;
+    }
+    
+    /**
+     * Simple method to change isPlaying to its negative.<br>
+     * For example:<br>
+     * {@code if isBigBlind == true; isBigBlind = false;}<br>
+     * {@code if isBigBlind == false; isBigBlind = true;}
+     */
+    public void set_BigBlind() {
+        isBigBlind = !isBigBlind;
+    }
+    
+    /**
+     * Simple method to manually change boolean <code>isBigBlind</code>.
+     * @param isDealer The boolean to change Player's isBigBlind
+     */
+    public void setManualBigBlind(boolean isDealer) {
+        this.isBigBlind = isBigBlind;
+    }  
 
     public String getName() {
         return name;

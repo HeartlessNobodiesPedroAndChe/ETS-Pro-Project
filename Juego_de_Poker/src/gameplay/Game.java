@@ -178,6 +178,20 @@ public class Game extends Deck {
         System.out.println("\nThe dealer is " + players[index].getName());
         return index;
     }
+    
+    /**
+     * This method sets a random SmallBlinb at the start of the game and make
+     * that the SmallBlind rotate every round.<br>
+     * Sets <code>isSmallBlind = true;<code> and <code> isPlaying
+     */
+    
+    public int set_Small_Blind(){
+        Random randomgenerator = new Random();
+        int indexsb = randomgenerator.nextInt(players.length - 1);
+        players[indexsb].set_SmallBlind();
+        players[indexsb].setPlaying();
+        return 0;
+    }
 
     /**
      * Simple method to change inGame to its negative.<br>
