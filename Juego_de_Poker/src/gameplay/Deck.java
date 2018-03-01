@@ -151,7 +151,7 @@ public class Deck {
      * @param handhold_cards The array to change.
      * @return handhold_cards as <code>String[][]</code>
      */
-    public String[][] parseArray(int[][] handhold_cards) {
+    public static String[][] parseArray(int[][] handhold_cards) {
         String[][] parsed_cards = new String[handhold_cards.length][2];
         
         for (int i = 0; i < handhold_cards.length; i++) {
@@ -201,7 +201,7 @@ public class Deck {
      * @param handhold_cards The array to change.
      * @return handhold_cards as <code>String[][]</code>
      */
-    public int[][] parseArray(String[][] handhold_cards) {
+    public static int[][] parseArray(String[][] handhold_cards) {
         int[][] parsed_cards = new int[handhold_cards.length][2];
         
         // We get the length of handhold so we make sure we get every card
