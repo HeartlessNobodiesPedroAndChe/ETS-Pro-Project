@@ -1,5 +1,7 @@
 package gameplay;
 
+import java.util.Arrays;
+
 /**
  * Class to set players and manage Gameplay.
  * 
@@ -72,24 +74,25 @@ public class Player {
      * ESCALERA REAL: ROYAL FLUSH
      */
     public int[][] reorderHandhold_cards (int[][] handhold){
-        int aux = 0, exchange = 0;
-        boolean organized = false;
-        do{
-        for (int i = 0; i < handhold.length; i++) {
-            for (int j = 1; j < handhold.length; j++) {
-                if(handhold[i][1] < handhold[j][1]){
-                    aux = handhold[i][1];
-                    handhold[i][1] = handhold[j][1];
-                    handhold[j][1] = aux;
-                    exchange++;
-                }
-            }
-            if (exchange == 0) {
-                organized = true;
-            }
-        }
-        exchange = 0;
-        }while(!organized);
+        // int aux = 0, exchange = 0;
+        // boolean organized = false;
+        // do{
+        // for (int i = 0; i < handhold.length; i++) {
+        //     for (int j = 1; j < handhold.length; j++) {
+        //         if(handhold[i][1] < handhold[j][1]){
+        //             aux = handhold[i][1];
+        //             handhold[i][1] = handhold[j][1];
+        //             handhold[j][1] = aux;
+        //             exchange++;
+        //         }
+        //     }
+        //     if (exchange == 0) {
+        //         organized = true;
+        //     }
+        // }
+        // exchange = 0;
+        // }while(!organized);
+        Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1],o2[1]));
         System.out.print("Cards: ");
         for (int i = 0; i < handhold.length; i++) {
             System.out.print(handhold[i][1]+" ");
@@ -194,7 +197,7 @@ public class Player {
     public void setDealer() {
         isDealer = !isDealer;
     }
-    
+
      /**
      * Simple method to manually change boolean <code>isDealer</code>.
      * @param isDealer The boolean to change Payer's isDealer
@@ -202,7 +205,7 @@ public class Player {
     public void setManualDealer(boolean isDealer) {
         this.isDealer = isDealer;
     }
-    
+
     public String getName() {
         return name;
     }
