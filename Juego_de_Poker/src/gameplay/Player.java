@@ -54,6 +54,9 @@ public class Player {
         String cards = "";
         int card_number = 1;
         
+        // We automatically reorder Player's hand
+        handhold_cards = Deck.parseArray(reorderHandhold_cards(Deck.parseArray(handhold_cards)));
+        
         // We get Card and Suit for every card in handhold array.
         for (String[] handhold_card : handhold_cards) {
           cards += "Card nº " + card_number + ": " + handhold_card[1] + " " + handhold_card[0] + "\n";
@@ -95,10 +98,6 @@ public class Player {
         // exchange = 0;
         // }while(!organized);
         Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1],o2[1]));
-        System.out.print("Cards: ");
-        for (int i = 0; i < handhold.length; i++) {
-            System.out.print(handhold[i][1]+" ");
-        }
         return handhold;
     }
     public String matchHands(){
@@ -220,9 +219,9 @@ public class Player {
     
     /**
      * Simple method to manually change boolean <code>isSmallBlind</code>.
-     * @param isDealer The boolean to change Player's isSmallBlind
+     * @param isSmallBlind The boolean to change Player's isSmallBlind
      */
-    public void setManualSmallBlind(boolean isDealer) {
+    public void setManualSmallBlind(boolean isSmallBlind) {
         this.isSmallBlind = isSmallBlind;
     }
     
