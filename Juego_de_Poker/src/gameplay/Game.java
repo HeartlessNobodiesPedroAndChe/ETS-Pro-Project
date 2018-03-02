@@ -19,6 +19,8 @@ public class Game {
     private double small_blind = 0;
     private final double big_blind = small_blind * 2;
     private int playingPlayerIndex;
+    private int smallBlindIndex;
+    private int bigBlindIndex;
     private Player[] players;
     private Deck deck;
 
@@ -187,14 +189,16 @@ public class Game {
      */
     private void setSmallBlind() {
         // We check if players[playingPlayerIndex + 1] exists and give it the attribute boolean SmallBlind
-        if (playingPlayerIndex + 1 > players.length - 1) {
-            players[0].set_SmallBlind();
-            System.out.println("Player " + players[0].getName() + " you must set the Small Blind:");
-            players[0].setPlaying();
+        smallBlindIndex = playingPlayerIndex + 1;
+        if (smallBlindIndex > players.length - 1) {
+            smallBlindIndex = 0;
+            players[smallBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            players[smallBlindIndex].setPlaying();
         } else {
-            players[playingPlayerIndex + 1].set_SmallBlind();
-            System.out.println("Player " + players[playingPlayerIndex + 1].getName() + " you must set the Small Blind:");
-            players[playingPlayerIndex + 1].setPlaying();
+            players[smallBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            players[smallBlindIndex].setPlaying();
         }
     }
     
@@ -203,14 +207,16 @@ public class Game {
      */
     private void setBigBlind() {
         // We check if players[playingPlayerIndex + 2] exists and give it the attribute boolean BigBlind
-        if (playingPlayerIndex + 2 > players.length - 1) {
-            players[1].set_BigBlind();
-            System.out.println("Player " + players[1].getName() + " you must set the Big Blind:");
-            players[1].setPlaying();
+        bigBlindIndex = smallBlindIndex + 1;
+        if (bigBlindIndex > players.length - 1) {
+            bigBlindIndex = 0;
+            players[bigBlindIndex].set_BigBlind();
+            System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
+            players[bigBlindIndex].setPlaying();
         } else {
-            players[playingPlayerIndex + 2].set_SmallBlind();
-            System.out.println("Player " + players[playingPlayerIndex + 2].getName() + " you must set the Big Blind:");
-            players[playingPlayerIndex + 2].setPlaying();
+            players[bigBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
+            players[bigBlindIndex].setPlaying();
         }
     }
 
