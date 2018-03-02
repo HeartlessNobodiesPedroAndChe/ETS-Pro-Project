@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Núñez Delgado, Eleazar
  * @author Borges Santamaría, Pedro
  */
-public class Game extends Deck {
+public class Game {
 
     private boolean inGame = false;
     private double bet = 0;
@@ -19,6 +19,8 @@ public class Game extends Deck {
     private double small_blind = 0;
     private final double big_blind = small_blind * 2;
     private int playingPlayerIndex;
+    private int smallBlindIndex;
+    private int bigBlindIndex;
     private Player[] players;
     private Deck deck;
 
@@ -63,6 +65,7 @@ public class Game extends Deck {
     public Game(Deck deck, Player... players) {
         Scanner input = new Scanner(System.in);
         this.players = players;
+        this.deck = deck;
 
         for (int i = 0; i < players.length; i++) {
             System.out.print("Player Nº " + (i + 1) + ", write your name: ");
@@ -75,7 +78,7 @@ public class Game extends Deck {
     }
 
     /**
-     * - - - - TEST METHOD - - - -
+     * This method starts a game and manage everything realted with it.
      */
     public void game_start() {
 
@@ -84,6 +87,8 @@ public class Game extends Deck {
             for (int i = 0; i < 2; i++) {
                 
                 for (Player player : players) {
+                    setSmallBlind();
+                    setBigBlind();
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
                     changeHand(players[playingPlayerIndex]);
@@ -120,44 +125,44 @@ public class Game extends Deck {
      */
     public Player changeHand (Player p) {
         ArrayList <Integer> change = new ArrayList<>();
-        boolean ok = false;
-        int value;
-        String answer = "";
+        String answer;
         Scanner scan = new Scanner(System.in);
         System.out.println("These are your cards:");
         System.out.println(p.showPlayerCards());
         System.out.print("Do you want to replace cards? (y/n): ");
         //This loop ensures that a valid input is entered.
         do {
+            // We read the answer and parse it to lowerCase
             answer = scan.nextLine();
-            if (answer.equals("y") || answer.equals("n")) {
-                ok = true;
-            } else {
-                System.out.print("You have to introduce 'y' or 'n': ");
-            }
+            answer = answer.toLowerCase();
             
-        } while (ok == false);
-        
-        
-        if (answer.equals("y")) {
-            System.out.print("Which ones do you want to replace? [Enter '0' when you are done]: ");
-            //This loop will gather the values of the cards to replace.
-            do {
-                value = scan.nextInt();
-                if (value != 0 && value <= 5) {
-                    change.add(value - 1);
+            // We check if the answer pass our pattern
+            if (!answer.matches("(y|n)")) {
+                System.out.print("You have to introduce 'y' or 'n': ");
+            } else {
+                
+                if(answer.equals("y")) {
+                    // If the Player wants to change cards
+                    System.out.print("Which ones do you want to replace? ");
+                    
+                    // Split will get a whole String and separate it into an array by character in *.split(char)
+                    String[] cardsIndexes = scan.nextLine().split(" ");
+                    
+                    // For-Loop will get every String in an array String
+                    for (String cardIndex: cardsIndexes) {
+                        // We parse that value to Integer and set it into change ArrayList
+                        change.add(Integer.parseInt(cardIndex) - 1);
+                    }
+                    
+                    // We change the hand and show it
+                     p.setHandhold_cards(deck.change_cards(p.getHandhold_cards(), change));
+                    System.out.println("\nThis is your new hand, " + p.getName());
+                    System.out.println(p.showPlayerCards());
                 }
-
-                if (change.size() == 5) {
-                    break;
-                }
-
-            } while (value != 0);
-        //Cards will be replaced by calling a few methods and then it will return the edited Object.
-            p.setHandhold_cards(change_cards(p.getHandhold_cards(), change));
-            System.out.println("\nThis is your new hand, " + p.getName());
-            System.out.println(p.showPlayerCards());
-        }
+                
+            }
+        } while (!answer.toLowerCase().matches("(y|n)"));
+        
         System.out.println("\nGood Luck!\n");
         return p;
     }
@@ -170,7 +175,7 @@ public class Game extends Deck {
      * @return index as <code>Integer</code> setting player[index] as dealer.
      * @see Random
      */
-    public int set_dealer() {
+    private int set_dealer() {
         Random randomGenerator = new Random();
         int index = randomGenerator.nextInt(players.length - 1);
         players[index].setDealer();
@@ -180,17 +185,39 @@ public class Game extends Deck {
     }
     
     /**
-     * This method sets a random SmallBlinb at the start of the game and make
-     * that the SmallBlind rotate every round.<br>
-     * Sets <code>isSmallBlind = true;<code> and <code> isPlaying
+     * Asks for small blind to the player next to the Dealer.
      */
+    private void setSmallBlind() {
+        // We check if players[playingPlayerIndex + 1] exists and give it the attribute boolean SmallBlind
+        smallBlindIndex = playingPlayerIndex + 1;
+        if (smallBlindIndex > players.length - 1) {
+            smallBlindIndex = 0;
+            players[smallBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            players[smallBlindIndex].setPlaying();
+        } else {
+            players[smallBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            players[smallBlindIndex].setPlaying();
+        }
+    }
     
-    public int set_Small_Blind(){
-        Random randomgenerator = new Random();
-        int indexsb = randomgenerator.nextInt(players.length - 1);
-        players[indexsb].set_SmallBlind();
-        players[indexsb].setPlaying();
-        return 0;
+    /**
+     * Asks for small blind to the player next to the Small Blind Player.
+     */
+    private void setBigBlind() {
+        // We check if players[playingPlayerIndex + 2] exists and give it the attribute boolean BigBlind
+        bigBlindIndex = smallBlindIndex + 1;
+        if (bigBlindIndex > players.length - 1) {
+            bigBlindIndex = 0;
+            players[bigBlindIndex].set_BigBlind();
+            System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
+            players[bigBlindIndex].setPlaying();
+        } else {
+            players[bigBlindIndex].set_SmallBlind();
+            System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
+            players[bigBlindIndex].setPlaying();
+        }
     }
 
     /**
