@@ -149,7 +149,7 @@ public class Game {
                     // For-Loop will get every String in an array String
                     for (String cardIndex: cardsIndexes) {
                         // We parse that value to Integer and set it into change ArrayList
-                        change.add(Integer.parseInt(cardIndex));
+                        change.add(Integer.parseInt(cardIndex) - 1);
                     }
                     
                     // We change the hand and show it
