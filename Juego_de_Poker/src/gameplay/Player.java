@@ -87,16 +87,25 @@ public class Player {
         int[][] handhold = Deck.parseArray(handhold_cards);
         handhold = reorderHandhold_cards(handhold);
         String Play = "";
-        int count = 0, aux = 0;
-        for (int i = 0; i < handhold.length;i++) {
-            if(i+1 < handhold.length){
-                if(handhold[i][1]== handhold[i+1][1]){
-                    Play = Player.this.searchSames(handhold,i);
-                }
-                //if(handhold[i][1]+1 == handhold[i+1][1]){
-                   // Play = searchFlush(handhold,i);
-                //}
+        boolean Royal = false;
+        int count = 0, aux = 0, suit = 0;
+        for (int i = 0; i < handhold.length-1;i++) {
+            if(handhold[i][1]== handhold[i+1][1]){
+                Play = searchSames(handhold,i);
             }
+            if(handhold[i][0] == handhold[i+1][0]){
+                Play = searchFlush(handhold,i);
+            }
+        }
+        if(handhold[0][1]+1 == handhold[1][1]){
+            Play = searchStraight(handhold);
+        }
+        if(handhold[0][1]==0 && handhold[1][1] == 9){
+            suit = handhold[0][0];
+            if (handhold[0][0] == handhold[1][0]){
+                Royal = true;
+            }
+            Play = searchRoyalStraight(handhold,Royal,suit);
         }
         return Play;
     }
@@ -132,12 +141,10 @@ public class Player {
     public String searchSames(int [][] handhold,int i, int firstpair){
         int count = 0, aux = 0, k = 0;
         String Play;
-        for (int j = 0; j < handhold.length; j++) {
-            if (j+1 < handhold.length) {
-                if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
-                    aux = handhold[j][1];
-                    k = j;
-                }
+        for (int j = 0; j < handhold.length-1; j++) {
+            if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
+                aux = handhold[j][1];
+                k = j;
             }
         }
         for (int j = 0; j < handhold.length; j++) {
@@ -160,7 +167,59 @@ public class Player {
     }
     
     public String searchFlush(int[][] handhold, int i){
-        return "hola";
+        int count = 0;
+        String Play ="";
+        int aux = handhold[i][0];
+        for (int j = 0; j < handhold.length; j++) {
+            if(aux == handhold[j][0] && i!=j){
+                count++;
+            }
+        }
+        if(count == 4)
+            return "Flush";
+        else
+            return "";
+    }
+    
+    public String searchStraight(int[][] handhold){
+        int count = 0;
+        String Play ="";
+        for (int j = 0; j < handhold.length-1; j++) {
+            if(handhold[j][1]+1 == handhold[j+1][1]){
+                count++;
+            }
+            if (handhold[j][0] == handhold[j+1][0]) {
+                count++;
+            }
+        }
+        switch(count){
+            case 4: 
+                return "Straight";
+            case 8: 
+                return "Straight Flush";
+            default: 
+                return "";
+        }
+    }
+    public String searchRoyalStraight(int[][] handhold, boolean Royal,int suit){
+         int count = 0;
+        String Play ="";
+        for (int j = 1; j < handhold.length-1; j++) {
+            if(handhold[j][1]+1 == handhold[j+1][1]){
+                count++;
+                if (handhold[j][0] == handhold[j+1][0] && suit == handhold[j][0]) {
+                    count++;
+                }
+            }
+        }
+        switch(count){
+            case 3:
+                return "Straight";
+            case 6:
+                return "Royal Straight";
+            default:
+                return "";
+        }
     }
     /**
      * Simple method to change isPlaying to its negative.<br>
