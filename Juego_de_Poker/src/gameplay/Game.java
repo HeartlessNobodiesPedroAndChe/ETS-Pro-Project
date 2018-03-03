@@ -100,7 +100,7 @@ public class Game {
                     showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-                    playerBet(i + 1);
+                    playerBet(player);
                     // Change to next Player
                     next_player();
                 }
@@ -286,28 +286,50 @@ public class Game {
      * Method that show player's money
      */
     private void showMoney() {
-        System.out.println("\n" + players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
+        System.out.println(players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
     }
 
     /**
      * This method asks the players how much they want to bet and add the bets 
      * in the variable <code>Max_bet <code>
      */
-    private void playerBet(int round) {
+    private void playerBet(Player player) {
         Scanner input = new Scanner(System.in);
+        boolean ok = true;
+        int bet;
+        // Dummy variable
+        String _bet;
+        
+        System.out.print("\n" + player.getName() + " how much money do you want to bet? ");
+        _bet = input.next();
 
-        if (round == 1) {
-            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
-            double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
-            setMax_bet(getMax_bet() + bet);
+        do {
+            
+            // We check if the input is a number
+            try {
+                bet = Integer.parseInt(_bet);
+                
+                // We check if the player can afford the bet
+                if (player.getMoney() >= bet) {
+                    player.setMoney(player.getMoney() - bet);
+                    setMax_bet(getMax_bet() + bet);
+                    ok = true;
+                } else {
+                    System.out.println("You don't have enough money to do that.");
+                    ok = false;
+                }
+                
+            } catch(NumberFormatException e) {
+                System.out.println("The bet must be a number.");
+                ok = false;
+            }
+            
+            if (!ok) {
+                System.out.print("\n" + player.getName() + " how much money do you want to bet? ");
+                _bet = input.next();
+            }
 
-        } else if (round == 2) {
-            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
-            double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
-            setMax_bet(getMax_bet() + bet);
-        }
+        } while (!ok);
 
     }
 
@@ -331,7 +353,6 @@ public class Game {
 
     /**
      * Simple method to manually change boolean <code>inGame</code>.
-     *
      * @param inGame The boolean to change Game's inGame
      */
     public void setManualInGame(boolean inGame) {
