@@ -83,7 +83,7 @@ public class Player {
         return handhold;
     }
     
-    public String matchHands(){
+    public void matchHands(){
         int[][] handhold = Deck.parseArray(handhold_cards);
         handhold = reorderHandhold_cards(handhold);
         String Play = "";
@@ -91,27 +91,28 @@ public class Player {
         int count = 0, aux = 0, suit = 0;
         for (int i = 0; i < handhold.length-1;i++) {
             if(handhold[i][1]== handhold[i+1][1]){
-                Play = searchSames(handhold,i);
+                searchSames(handhold,i);
             }
             if(handhold[i][0] == handhold[i+1][0]){
-                Play = searchFlush(handhold,i);
+                searchFlush(handhold,i);
             }
         }
         if(handhold[0][1]+1 == handhold[1][1]){
-            Play = searchStraight(handhold);
+            searchStraight(handhold);
         }
         if(handhold[0][1]==0 && handhold[1][1] == 9){
             suit = handhold[0][0];
             if (handhold[0][0] == handhold[1][0]){
                 Royal = true;
             }
-            Play = searchRoyalStraight(handhold,Royal,suit);
+            searchRoyalStraight(handhold,Royal,suit);
         }
-        return Play;
+        setScore(0,handhold[4][1],0);
     }
-    public String searchSames(int[][] handhold,int i){
+    public void searchSames(int[][] handhold,int i){
         int count = 0;
-        String Play ="";
+        int[] score_ = new int[3];
+        int Play;
         int aux = handhold[i][1];
         for (int j = 0; j < handhold.length; j++) {
             if(aux == handhold[j][1] && i!=j){
@@ -120,24 +121,33 @@ public class Player {
         }
         switch(count){
             case 1:
-                Play = "Pair";
-                if(Play.equals(searchSames(handhold,i,aux)))
-                    Play = "Two Pairs";
-                if("Trio".equals(searchSames(handhold,i,aux)))
-                    Play = "Full House";
+                setScore(1,aux,0);
+                if("Pair".equals(searchSames(handhold,i,aux))){
+                    setScore(2,aux,Compare(handhold, aux));
+                }
+                if("Trio".equals(searchSames(handhold,i,aux))){
+                    setScore(6,aux,Compare(handhold,aux));
+                }
                 break;
             case 2:
-                Play = "Three of a Kind";
                 if("Pair".equals(searchSames(handhold,i,aux)))
-                    Play = "Full House";
+                    setScore(6,aux,Compare(handhold,aux));
                 break;
             case 3: 
-                Play = "Poker";
+                setScore(7,aux,Integer.MIN_VALUE);
                 break;
         }
-        return Play;
     }
     
+    public int Compare(int[][] handhold, int firstpair){
+        int aux = 0;
+        for (int j = 0; j < handhold.length-1; j++) {
+            if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
+                aux = handhold[j][1];
+            }
+        }
+        return aux;
+    }
     public String searchSames(int [][] handhold,int i, int firstpair){
         int count = 0, aux = 0, k = 0;
         String Play;
@@ -166,7 +176,7 @@ public class Player {
         return Play;
     }
     
-    public String searchFlush(int[][] handhold, int i){
+    public void searchFlush(int[][] handhold, int i){
         int count = 0;
         String Play ="";
         int aux = handhold[i][0];
@@ -176,33 +186,30 @@ public class Player {
             }
         }
         if(count == 4)
-            return "Flush";
-        else
-            return "";
+            setScore(5,handhold[4][1],0);
     }
     
-    public String searchStraight(int[][] handhold){
-        int count = 0;
+    public void searchStraight(int[][] handhold){
+        int count = 0, colorcount = 0;
         String Play ="";
         for (int j = 0; j < handhold.length-1; j++) {
             if(handhold[j][1]+1 == handhold[j+1][1]){
                 count++;
             }
             if (handhold[j][0] == handhold[j+1][0]) {
-                count++;
+                colorcount++;
             }
         }
-        switch(count){
-            case 4: 
-                return "Straight";
-            case 8: 
-                return "Straight Flush";
-            default: 
-                return "";
+        if(count==4){
+            if(colorcount == 4){
+                setScore(8,handhold[4][1],Integer.MIN_VALUE);
+            }
+            setScore(4,handhold[4][1],Integer.MIN_VALUE);
         }
     }
-    public String searchRoyalStraight(int[][] handhold, boolean Royal,int suit){
-         int count = 0;
+    
+    public void searchRoyalStraight(int[][] handhold, boolean Royal,int suit){
+        int count = 0;
         String Play ="";
         for (int j = 1; j < handhold.length-1; j++) {
             if(handhold[j][1]+1 == handhold[j+1][1]){
@@ -214,11 +221,11 @@ public class Player {
         }
         switch(count){
             case 3:
-                return "Straight";
+                setScore(4,handhold[0][1],Integer.MIN_VALUE);
+                break;
             case 6:
-                return "Royal Straight";
-            default:
-                return "";
+                setScore(9,handhold[0][1],Integer.MIN_VALUE);
+                break;
         }
     }
     /**
@@ -322,6 +329,136 @@ public class Player {
     
     public void setScore(int score){
         this.score = score;
+    }
+    public void setScore(int hand, int firstvalue, int secondvalue){
+        String[] score_ = new String[3];
+        int scoret = 0;
+        switch(hand){
+            case 0:
+                score_[0] = "High Card";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 1:
+                score_[0] = "Pair";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 2:
+                score_[0] = "Two Pairs";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 3:
+                score_[0] = "Three of a Kind";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 4:
+                score_[0] = "Straight";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 5:
+                score_[0] = "Flush";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 6:
+                score_[0] = "Full";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 7:
+                score_[0] = "Poker";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 8:
+                score_[0] = "Straight Flush";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+            case 9:
+                score_[0] = "Royal Straight";
+                score_[1] = String.valueOf(firstvalue);
+                score_[2] = String.valueOf(secondvalue);
+                break;
+        }
+        switch(score_[0]){
+            case "High Card":
+                if(score_[1] == "0"){
+                    scoret = 12;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+1);
+                }
+                break;
+            case "Pair":
+                if(score_[1] == "0"){
+                    scoret = 24;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+13);
+                }
+                break;
+
+            case "Two Pairs":
+                if(score_[1] == "0"){
+                    scoret = 36;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+25);
+                }
+                break;
+            case "Three of a Kind":
+                if(score_[1] == "0"){
+                    scoret = 48;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+37);
+                }
+                break;
+            case "Straight":
+                if(score_[1] == "0"){
+                    scoret = 60;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+49);
+                }
+                break;
+            case "Flush":
+                if(score_[1] == "0"){
+                    scoret = 72;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+61);
+                }
+                break;
+            case "Full":
+                if(score_[1] == "0"){
+                    scoret = 84;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+73);
+                }
+                break;
+            case "Poker":
+                if(score_[1] == "0"){
+                    scoret = 96;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+85);
+                }
+                break;
+            case "Straight Flush":
+                if(score_[1] == "0"){
+                    scoret = 108;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+97);
+                }
+                break;
+            case "Royal Straight":
+                if(score_[1] == "0"){
+                    scoret = 120;
+                }else{
+                    scoret = Integer.parseInt(score_[1]+109);
+                }
+                break;
+        }
+        this.score = scoret;
     }
 
     public boolean getIsDealer() {

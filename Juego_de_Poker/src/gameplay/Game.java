@@ -92,12 +92,12 @@ public class Game {
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
                     changeHand(players[playingPlayerIndex]);
-                    System.out.println(players[playingPlayerIndex].matchHands());
+                    players[playingPlayerIndex].matchHands();
 
                     // Change to next Player
                     next_player();
                 }
-                
+                System.out.println("The winner of the round is: "+players[RoundWinner()].getName());
             }
             setInGame();
         }
@@ -220,6 +220,16 @@ public class Game {
         }
     }
 
+    public int RoundWinner (){
+        int max = 0, WinnerIndex = 0;
+            for (int i = 0; i < players.length; i++) {
+                if(max < players[i].getScore()){
+                    max = players[i].getScore();
+                    WinnerIndex = i;
+                }
+            }
+        return WinnerIndex;
+    }
     /**
      * Simple method to change inGame to its negative.<br>
      * For example:<br> {@code if inGame == true; inGame = false;}<br>
