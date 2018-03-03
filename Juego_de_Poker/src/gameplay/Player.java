@@ -25,16 +25,16 @@ public class Player {
 
     /**
      * The empty constructor generates by default:<br>
-     * {@code double money = 10;}<br> {@code isDealer = false;}<br>
+     * {@code double money = 10;}<br>
+     * {@code isDealer = false;}<br>
      * {@code isPlaying = false;}
      */
-    public Player() {
-    }
+    public Player() {}
 
     /**
-     * This constructor generates by default:<br>      {@code isDealer = false;}
+     * This constructor generates by default:<br>
+     * {@code isDealer = false;}
      * {@code isPlaying = false;}
-     *
      * @param name The name of the Player
      * @param money The amount richness
      * @param handhold_cards The cards this Player owns
@@ -48,7 +48,6 @@ public class Player {
     /**
      * Show player's card with Suit and Number.<br>
      * This method is just for testing, will be deprecated ASAP.
-     *
      * @return Cheats as <code>String[][]</code>.
      */
     public String showPlayerCards() {
@@ -140,9 +139,8 @@ public class Player {
                 }
                 break;
             case 2:
-                if ("Pair".equals(searchSames(handhold, i, aux))) {
-                    setScore(6, aux, Compare(handhold, aux));
-                }
+                if("Pair".equals(searchSames(handhold,i,aux)))
+                    setScore(6,aux,Compare(handhold,aux));
                 break;
             case 3:
                 setScore(7, aux, Integer.MIN_VALUE);
@@ -272,7 +270,8 @@ public class Player {
 
     /**
      * Simple method to change isPlaying to its negative.<br>
-     * For example:<br> {@code if isPlaying == true; isPlaying = false;}<br>
+     * For example:<br>
+     * {@code if isPlaying == true; isPlaying = false;}<br>
      * {@code if isPlaying == false; isPlaying = true;}
      */
     public void setPlaying() {
@@ -281,7 +280,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isPlaying</code>.
-     *
      * @param isPlaying The boolean to change Payer's isPlaying
      */
     public void setManualPlaying(boolean isPlaying) {
@@ -290,7 +288,8 @@ public class Player {
 
     /**
      * Simple method to change isPlaying to its negative.<br>
-     * For example:<br> {@code if isDealer == true; isDealer = false;}<br>
+     * For example:<br>
+     * {@code if isDealer == true; isDealer = false;}<br>
      * {@code if isDealer == false; isDealer = true;}
      */
     public void setDealer() {
@@ -299,7 +298,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isDealer</code>.
-     *
      * @param isDealer The boolean to change Payer's isDealer
      */
     public void setManualDealer(boolean isDealer) {
@@ -318,7 +316,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isSmallBlind</code>.
-     *
      * @param isSmallBlind The boolean to change Player's isSmallBlind
      */
     public void setManualSmallBlind(boolean isSmallBlind) {
@@ -327,7 +324,8 @@ public class Player {
 
     /**
      * Simple method to change isPlaying to its negative.<br>
-     * For example:<br> {@code if isBigBlind == true; isBigBlind = false;}<br>
+     * For example:<br>
+     * {@code if isBigBlind == true; isBigBlind = false;}<br>
      * {@code if isBigBlind == false; isBigBlind = true;}
      */
     public void set_BigBlind() {
@@ -336,7 +334,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isBigBlind</code>.
-     *
      * @param isDealer The boolean to change Player's isBigBlind
      */
     public void setManualBigBlind(boolean isDealer) {
