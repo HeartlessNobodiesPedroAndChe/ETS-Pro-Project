@@ -300,6 +300,7 @@ public class Game {
         // Dummy variable
         String _bet;
         
+        System.out.print("Your bet is now " + player.getBet());
         System.out.print("\n" + player.getName() + " how much money do you want to bet? ");
         _bet = input.next();
 
@@ -311,6 +312,7 @@ public class Game {
                 
                 // We check if the player can afford the bet
                 if (player.getMoney() >= bet) {
+                    player.setBet(bet);
                     player.setMoney(player.getMoney() - bet);
                     setMax_bet(getMax_bet() + bet);
                     ok = true;

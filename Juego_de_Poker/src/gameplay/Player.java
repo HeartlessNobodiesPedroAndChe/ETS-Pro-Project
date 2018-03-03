@@ -16,6 +16,7 @@ public class Player {
     // Variables
     private String name;
     private double money = 10;
+    private double bet = 0;
     private String[][] handhold_cards;
     private boolean isDealer = false;
     private boolean isPlaying = false;
@@ -539,9 +540,17 @@ public class Player {
         }
         this.score = score_;
     }
-
+    
+    public void setBet(double bet) {
+        this.bet = bet;
+    }
+    
     public boolean getIsDealer() {
         return isDealer;
+    }
+    
+    public double getBet() {
+        return bet;
     }
 
 }
