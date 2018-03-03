@@ -100,7 +100,12 @@ public class Game {
                     showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-                    playerBet(player);
+                    playerBet(players[playingPlayerIndex]);
+                    System.out.println("You have a "+players[playingPlayerIndex].getScoreString(0)+" of "+players[playingPlayerIndex].getScoreString(1));
+                    if(players[playingPlayerIndex].getScoreString(0).equals("Two Pairs")||players[playingPlayerIndex].getScoreString(0).equals("Full House")){
+                        System.out.println(" And "+players[playingPlayerIndex].getScoreString(2));
+                    }
+
                     // Change to next Player
                     next_player();
                 }
@@ -270,18 +275,34 @@ public class Game {
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public int RoundWinner() {
+    public int RoundWinner (){
+        ArrayList<Integer> WinnerIndexes = new ArrayList<>();
+        ArrayList<Integer> WinnerIndexes_ = new ArrayList<>();
         int max = 0, WinnerIndex = 0;
         for (int i = 0; i < players.length; i++) {
-            
+            if(max < players[i].getScore(0)){
+                max = players[i].getScore(0);
+                WinnerIndexes.clear();
+                WinnerIndexes.add(i);
+            }else if(max == players[i].getScore(0)){
+                WinnerIndexes.add(i);
+            }
         }
+        
+        max = 0;
+            if(WinnerIndexes.size() > 1){
+                for (int i = 0; i < WinnerIndexes.size(); i++) {
+                    if(max < players[WinnerIndexes.get(i)].getScore(1)){
+                        max = players[WinnerIndexes.get(i)].getScore(1);
+                        WinnerIndex = WinnerIndexes.get(i);
+                    }
+                }
+            }else{
+                WinnerIndex = WinnerIndexes.get(0);
+            }
         return WinnerIndex;
     }
-
+            
     /**
      * Method that show player's money
      */
