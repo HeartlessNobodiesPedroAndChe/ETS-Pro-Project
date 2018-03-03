@@ -223,10 +223,7 @@ public class Game {
     public int RoundWinner (){
         int max = 0, WinnerIndex = 0;
             for (int i = 0; i < players.length; i++) {
-                if(max < players[i].getScore()){
-                    max = players[i].getScore();
-                    WinnerIndex = i;
-                }
+                
             }
         return WinnerIndex;
     }
