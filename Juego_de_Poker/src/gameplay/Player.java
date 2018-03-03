@@ -90,6 +90,11 @@ public class Player {
         String Play = "";
         boolean Royal = false;
         int count = 0, aux = 0, suit = 0;
+        if(handhold[0][1] == 0){
+            setScoreString(0,handhold[0][1],0);
+        }else{
+        setScoreString(0,handhold[4][1],0);
+        }
         for (int i = 0; i < handhold.length-1;i++) {
             if(handhold[i][1]== handhold[i+1][1]){
                 searchSames(handhold,i);
@@ -108,7 +113,6 @@ public class Player {
             }
             searchRoyalStraight(handhold,Royal,suit);
         }
-        setScoreString(0,handhold[4][1],0);
     }
     public void searchSames(int[][] handhold,int i){
         int count = 0;
@@ -131,11 +135,12 @@ public class Player {
                 }
                 break;
             case 2:
+                setScoreString(3,aux,Integer.MIN_VALUE);
                 if("Pair".equals(searchSames(handhold,i,aux)))
                     setScoreString(6,aux,Compare(handhold,aux));
                 break;
             case 3: 
-                setScoreString(7,aux,Integer.MIN_VALUE);
+                setScoreString(7,aux,0);
                 break;
         }
     }
@@ -186,8 +191,9 @@ public class Player {
                 count++;
             }
         }
-        if(count == 4)
+        if(count == 4){
             setScoreString(5,handhold[4][1],0);
+        }
     }
     
     public void searchStraight(int[][] handhold){
@@ -210,23 +216,21 @@ public class Player {
     }
     
     public void searchRoyalStraight(int[][] handhold, boolean Royal,int suit){
-        int count = 0;
+        int count = 0, colorcount = 0;
         String Play ="";
         for (int j = 1; j < handhold.length-1; j++) {
             if(handhold[j][1]+1 == handhold[j+1][1]){
                 count++;
                 if (handhold[j][0] == handhold[j+1][0] && suit == handhold[j][0]) {
-                    count++;
+                    colorcount++;
                 }
             }
         }
-        switch(count){
-            case 3:
-                setScoreString(4,handhold[0][1],Integer.MIN_VALUE);
-                break;
-            case 6:
+        if(count==3){
+            if(colorcount == 3){
                 setScoreString(9,handhold[0][1],Integer.MIN_VALUE);
-                break;
+            }
+            setScoreString(4,handhold[0][1],Integer.MIN_VALUE);
         }
     }
     /**
@@ -315,6 +319,15 @@ public class Player {
     public int[] getScore(){
         return score;
     }
+    public int getScore(int i){
+        return score[i];
+    }
+    public String[] getScoreString(){
+        return ScoreString;
+    }
+    public String getScoreString(int i){
+        return ScoreString[i];
+    }
     
     public void setName(String name) {
         this.name = name;
@@ -327,68 +340,80 @@ public class Player {
     public void setHandhold_cards(String[][] handhold_cards) {
         this.handhold_cards = handhold_cards;
     }
-    public void getScoreString(String[] ScoreString){
-        this.ScoreString = ScoreString;
-    }
+   
     public void setScore(int[] score){
         this.score = score;
     }
     public void setScoreString(int hand, int firstvalue, int secondvalue){
         String[] score_ = new String[3];
-        int scoret = 0;
+        
+        
+        switch(firstvalue){
+            case 0:
+                score_[1] = "Ace";
+                break;
+            case 10:
+                score_[1] = "Jack";
+                break;
+            case 11:
+                score_[1] = "Queen";
+                break;
+            case 12:
+                score_[1] = "King";
+                break;
+            default:
+                score_[1] = String.valueOf(firstvalue+1);
+        }
+        switch(secondvalue){
+            case 0:
+                score_[2] = "Ace";
+                break;
+            case 10:
+                score_[2] = "Jack";
+                break;
+            case 11:
+                score_[2] = "Queen";
+                break;
+            case 12:
+                score_[2] = "King";
+                break;
+            default:
+                score_[2] = String.valueOf(secondvalue+1);
+        }
         switch(hand){
             case 0:
                 score_[0] = "High Card";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 1:
                 score_[0] = "Pair";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 2:
                 score_[0] = "Two Pairs";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 3:
                 score_[0] = "Three of a Kind";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 4:
                 score_[0] = "Straight";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 5:
                 score_[0] = "Flush";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 6:
                 score_[0] = "Full";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 7:
                 score_[0] = "Poker";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 8:
                 score_[0] = "Straight Flush";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
             case 9:
                 score_[0] = "Royal Straight";
-                score_[1] = String.valueOf(firstvalue);
-                score_[2] = String.valueOf(secondvalue);
                 break;
         }
         this.ScoreString = score_;
+        setScore(score_);
     }
     
     public void setScore(String[] ScoreString){
@@ -396,94 +421,328 @@ public class Player {
         switch(ScoreString[0]){
             case "High Card":
                 score_[0] = 0;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+                switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[2]+1);
-                break;
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
+                 break;
             case "Pair":
                 score_[0] = 1;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[2] = Integer.parseInt(ScoreString[1]+1);
+                switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[2]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
 
             case "Two Pairs":
                 score_[0] = 2;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+                switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Three of a Kind":
                 score_[0] = 3;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+               switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Straight":
                 score_[0] = 4;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
+                if("Ace".equals(score_[1])){
+                    score_[1] = 13;
                 }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+                    score_[1] = Integer.parseInt(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                score_[2] = Integer.parseInt(ScoreString[1]);
                 break;
             case "Flush":
                 score_[0] = 5;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+               switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Full":
                 score_[0] = 6;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+                switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Poker":
                 score_[0] = 7;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+               switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Straight Flush":
                 score_[0] = 8;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+                switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
             case "Royal Straight":
                 score_[0] = 9;
-                if("0".equals(score_[1])){
-                    score_[1] = 12;
-                }else{
-                    score_[1] = Integer.parseInt(ScoreString[1]+1);
+               switch(ScoreString[1]){
+                    case "Ace":
+                        score_[1] = 13;
+                        break;
+                    case "Jack":
+                        score_[1] = 10;
+                        break;
+                    case "Queen":
+                        score_[1] = 11;
+                        break;
+                    case "King":
+                        score_[1] = 12;
+                        break;
+                    default:
+                        score_[1] = Integer.valueOf(ScoreString[1]);
                 }
-                score_[2] = Integer.parseInt(ScoreString[1]+1);
+                 switch(ScoreString[2]){
+                    case "Ace":
+                        score_[2] = 13;
+                        break;
+                    case "Jack":
+                        score_[2] = 10;
+                        break;
+                    case "Queen":
+                        score_[2] = 11;
+                        break;
+                    case "King":
+                        score_[2] = 12;
+                        break;
+                    default:
+                        score_[2] = Integer.valueOf(ScoreString[2]);
+                }
                 break;
         }
         this.score = score_;
