@@ -84,15 +84,16 @@ public class Game {
 
         while (inGame) {
             // The gameplay is based on two rounds
+            setSmallBlind();
+            setBigBlind();
+
             for (int i = 0; i < 2; i++) {
 
                 for (Player player : players) {
-                    setSmallBlind();
-                    setBigBlind();
                     // Player
-                    System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
-                    changeHand(players[playingPlayerIndex]);
-                    players[playingPlayerIndex].matchHands();
+                    System.out.println("\nPlayer '" + player.getName() + "', it's your turn:");
+                    changeHand(player);
+                    player.matchHands();
 
                     // Change to next Player
                     next_player();
