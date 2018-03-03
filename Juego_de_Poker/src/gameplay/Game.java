@@ -6,17 +6,20 @@ import java.util.Random;
 
 /**
  * @version 0.1 Early
- * @author Becerra GutiÃ©rrez, JesÃºs Daniel
- * @author SuÃ¡rez Delgado, Yared
- * @author NÃºÃ±ez Delgado, Eleazar
- * @author Borges SantamarÃ­a, Pedro
+ * @author Becerra Gutiérrez, Jesús Daniel
+ * @author Suárez Delgado, Yared
+ * @author Núñez Delgado, Eleazar
+ * @author Borges Santamaría, Pedro
+ * @see Player
+ * @see Deck
  */
 public class Game {
 
+    // Variables
     private boolean inGame = false;
     private double bet = 0;
     private double max_bet = 0;
-    private double small_blind = 0;
+    private final double small_blind = 1;
     private final double big_blind = small_blind * 2;
     private int playingPlayerIndex;
     private int smallBlindIndex;
@@ -41,7 +44,7 @@ public class Game {
         this.players = players;
 
         for (int i = 0; i < players.length; i++) {
-            System.out.print("Player NÂº " + (i + 1) + ", write your name: ");
+            System.out.print("Player Nº " + (i + 1) + ", write your name: ");
             players[i].setName(input.nextLine());
             players[i].setHandhold_cards(deck.deal_cards());
         }
@@ -68,7 +71,7 @@ public class Game {
         this.deck = deck;
 
         for (int i = 0; i < players.length; i++) {
-            System.out.print("Player NÂº " + (i + 1) + ", write your name: ");
+            System.out.print("Player Nº " + (i + 1) + ", write your name: ");
             players[i].setName(input.nextLine());
             players[i].setHandhold_cards(deck.deal_cards());
         }
@@ -83,22 +86,25 @@ public class Game {
     public void game_start() {
 
         while (inGame) {
+            
+            // We set who's gonna make small and big blind
+            setSmallBlind();
+            setBigBlind();
+
             // The gameplay is based on two rounds
-            for (int round = 1; round < 3; round++) {
+            for (int i = 0; i < 2; i++) {
                 
                 for (Player player : players) {
-                    setSmallBlind();
-                    setBigBlind();
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
                     showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-                    playerBet(round);
+                    playerBet(player);
                     // Change to next Player
                     next_player();
                 }
-                System.out.println("The winner of the round is: "+players[RoundWinner()].getName());
+                System.out.println("The winner of the round is: " + players[RoundWinner()].getName());
             }
             setInGame();
         }
@@ -115,6 +121,8 @@ public class Game {
         } else {
             ++playingPlayerIndex;
         }
+        // A really big line break
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
     
     /**
@@ -124,10 +132,11 @@ public class Game {
      * @see Player
      * @see ArrayList
      */
-    public Player changeHand (Player p) {
-        ArrayList <Integer> change = new ArrayList<>();
+    public Player changeHand(Player p) {
+        ArrayList<Integer> change = new ArrayList<>();
         String answer;
         Scanner scan = new Scanner(System.in);
+        boolean everything_is_aright = true;
         System.out.println("These are your cards:");
         System.out.println(p.showPlayerCards());
         System.out.print("Do you want to replace cards? (y/n): ");
@@ -142,15 +151,52 @@ public class Game {
                 System.out.print("You have to introduce 'y' or 'n': ");
             } else {
                 
-                if(answer.equals("y")) {
+                if (answer.equals("y")) {
                     // If the Player wants to change cards
                     System.out.print("Which ones do you want to replace? ");
                     
                     // Split will get a whole String and separate it into an array by character in *.split(char)
                     String[] cardsIndexes = scan.nextLine().split(" ");
                     
+                    // Checking Numbers
+                    do {
+                        
+                        // We declare a temp Integer for parsingChecker
+                        int cardIndex_;
+                        
+                        // Get every cardIndex
+                        for(String cardIndex: cardsIndexes) {
+                            
+                            // Try to parse and get errors
+                            try {
+                                cardIndex_ = Integer.parseInt(cardIndex);
+                                
+                                // Check values introduced
+                                if (cardIndex_ <= 0 || cardIndex_ > 5) {
+                                    System.out.println("You can't set values below 1 or above 5.");
+                                    everything_is_aright = false;
+                                } else {
+                                    everything_is_aright = true;
+                                }
+                                
+                            // Catching errors
+                            } catch(NumberFormatException e) {
+                                System.out.println("You can't write letters");
+                                everything_is_aright = false;
+                            }
+                        }
+                        
+                        // Repeating input
+                        if (!everything_is_aright) {
+                            System.out.print("Which ones do you want to replace? ");
+                            cardsIndexes = scan.nextLine().split(" ");
+                        }
+                    
+                    } while (!everything_is_aright);
+
+
                     // For-Loop will get every String in an array String
-                    for (String cardIndex: cardsIndexes) {
+                    for (String cardIndex : cardsIndexes) {
                         // We parse that value to Integer and set it into change ArrayList
                         change.add(Integer.parseInt(cardIndex) - 1);
                     }
@@ -159,12 +205,15 @@ public class Game {
                      p.setHandhold_cards(deck.change_cards(p.getHandhold_cards(), change));
                     System.out.println("\nThis is your new hand, " + p.getName());
                     System.out.println(p.showPlayerCards());
+                    
+                    // Dummy function so people now can read their cards
+                    System.out.print("Press Enter key to continue...");
+                    try{System.in.read();}catch(Exception e){};
                 }
                 
             }
         } while (!answer.toLowerCase().matches("(y|n)"));
         
-        System.out.println("\nGood Luck!\n");
         return p;
     }
     
@@ -222,6 +271,18 @@ public class Game {
     }
     
     /**
+     *
+     * @return
+     */
+    public int RoundWinner() {
+        int max = 0, WinnerIndex = 0;
+        for (int i = 0; i < players.length; i++) {
+            
+        }
+        return WinnerIndex;
+    }
+
+    /**
      * Method that show player's money
      */
     private void showMoney() {
@@ -229,26 +290,30 @@ public class Game {
     }
     
     /**
-     * This method asks the players how much they want to bet
-     * and add the bets in the variable <code>Max_bet <code>
+     * This method asks the players how much they want to bet and add the bets 
+     * in the variable <code>Max_bet <code>
      */
-    private void playerBet(int round) {
+    private void playerBet(Player player) {
         Scanner input = new Scanner(System.in);
         
+        if (player == players[bigBlindIndex]) {
+            System.out.println("\n" + players[playingPlayerIndex].getName() + " actually your bet is " );
+        } else if (player == players[smallBlindIndex]) {
+            
+        }
+        /*
         if (round == 1) {
             System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
-            double arbeloa = getMax_bet();
-            setMax_bet(arbeloa + bet); 
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            setMax_bet(getMax_bet() + bet);
             
         } else if (round == 2) {
             System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
-            double arbeloa = getMax_bet();
-            setMax_bet(arbeloa + bet); 
-        }
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            setMax_bet(getMax_bet() + bet);
+        }*/
         
     }
     
@@ -259,16 +324,8 @@ public class Game {
     private void dist_Money() {
        double timba = getMax_bet();
        //When the round ends the winner will receive the winnings
-       
     }
 
-    public int RoundWinner (){
-        int max = 0, WinnerIndex = 0;
-            for (int i = 0; i < players.length; i++) {
-                
-            }
-        return WinnerIndex;
-    }
     /**
      * Simple method to change inGame to its negative.<br>
      * For example:<br> {@code if inGame == true; inGame = false;}<br>
@@ -295,10 +352,6 @@ public class Game {
         this.max_bet = max_bet;
     }
 
-    public void setSmall_blind(double small_blind) {
-        this.small_blind = small_blind;
-    }
-
     public boolean isInGame() {
         return inGame;
     }
@@ -320,4 +373,3 @@ public class Game {
     }
 
 }
-

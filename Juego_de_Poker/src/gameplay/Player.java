@@ -5,10 +5,10 @@ import java.util.Arrays;
 /**
  * Class to set players and manage Gameplay.
  * 
- * @author Becerra GutiÃ©rrez, JesÃºs Daniel
- * @author SuÃ¡rez Delgado, Yared
- * @author NÃºÃ±ez Delgado, Eleazar
- * @author Borges SantamarÃ­a, Pedro
+ * @author Becerra Gutiérrez, Jesús Daniel
+ * @author Suárez Delgado, Yared
+ * @author Núñez Delgado, Eleazar
+ * @author Borges Santamaría, Pedro
  * @see Deck
  */
 public class Player {
@@ -60,110 +60,133 @@ public class Player {
         
         // We get Card and Suit for every card in handhold array.
         for (String[] handhold_card : handhold_cards) {
-          cards += "Card nÂº " + card_number + ": " + handhold_card[1] + " " + handhold_card[0] + "\n";
+            cards += "Card nº " + card_number + ": " + handhold_card[1] + " " + handhold_card[0] + "\n";
           card_number++;
         }
         
         return cards;
     }
+
     /**
-     * HOW TO NAME POKER HANDS IN ENGLISH (RANKED FROM LOWEST TO HIGHEST):
-     * CARTA ALTA: HIGH CARD
-     * PAREJA: PAIR
-     * DOBLE PAREJA: TWO PAIRS
-     * TRIO: THREE OF A KIND
-     * ESCALERA NORMAL: STRAIGHT
-     * 5 CARTAS MISMO PALO: FLUSH
-     * FULL: FULL HOUSE
-     * POKER: POKER (FOUR OF A KIND)
-     * ESCALERA DE COLOR: STRAIGHT FLUSH
-     * ESCALERA REAL: ROYAL FLUSH
+     * Simple method to reorder the hand.
+     *
+     * @param handhold as <code>Integer[]</code>
+     * @return Orderder <code>Integer[]</code> of Handhold_cards
      */
-    public int[][] reorderHandhold_cards (int[][] handhold){
-        Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1],o2[1]));
+    public int[][] reorderHandhold_cards(int[][] handhold) {
+        Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1], o2[1]));
         return handhold;
     }
     
-    public void matchHands(){
+    /**
+     *
+     */
+    public void matchHands() {
         int[][] handhold = Deck.parseArray(handhold_cards);
         handhold = reorderHandhold_cards(handhold);
         String Play = "";
         boolean Royal = false;
-        int count = 0, aux = 0, suit = 0;
-        for (int i = 0; i < handhold.length-1;i++) {
-            if(handhold[i][1]== handhold[i+1][1]){
-                searchSames(handhold,i);
+        int count, aux = 0, suit = 0;
+        
+        for (int i = 0; i < handhold.length - 1; i++) {
+            if (handhold[i][1] == handhold[i + 1][1]) {
+                searchSames(handhold, i);
             }
-            if(handhold[i][0] == handhold[i+1][0]){
-                searchFlush(handhold,i);
+            if (handhold[i][0] == handhold[i + 1][0]) {
+                searchFlush(handhold, i);
             }
         }
-        if(handhold[0][1]+1 == handhold[1][1]){
+        
+        if (handhold[0][1] + 1 == handhold[1][1]) {
             searchStraight(handhold);
         }
-        if(handhold[0][1]==0 && handhold[1][1] == 9){
+        
+        if (handhold[0][1] == 0 && handhold[1][1] == 9) {
             suit = handhold[0][0];
-            if (handhold[0][0] == handhold[1][0]){
+            if (handhold[0][0] == handhold[1][0]) {
                 Royal = true;
             }
-            searchRoyalStraight(handhold,Royal,suit);
+            searchRoyalStraight(handhold, Royal, suit);
         }
-        setScoreString(0,handhold[4][1],0);
+        
+        setScore(0, handhold[4][1], 0);
     }
-    public void searchSames(int[][] handhold,int i){
+
+    /**
+     *
+     * @param handhold
+     * @param i
+     */
+    public void searchSames(int[][] handhold, int i) {
         int count = 0;
         int[] score_ = new int[3];
         int Play;
         int aux = handhold[i][1];
+        
         for (int j = 0; j < handhold.length; j++) {
-            if(aux == handhold[j][1] && i!=j){
+            if (aux == handhold[j][1] && i != j) {
                 count++;
             }
         }
-        switch(count){
+
+        switch (count) {
             case 1:
-                setScoreString(1,aux,0);
-                if("Pair".equals(searchSames(handhold,i,aux))){
-                    setScoreString(2,aux,Compare(handhold, aux));
+                setScore(1, aux, 0);
+                if ("Pair".equals(searchSames(handhold, i, aux))) {
+                    setScore(2, aux, Compare(handhold, aux));
                 }
-                if("Trio".equals(searchSames(handhold,i,aux))){
-                    setScoreString(6,aux,Compare(handhold,aux));
+                if ("Trio".equals(searchSames(handhold, i, aux))) {
+                    setScore(6, aux, Compare(handhold, aux));
                 }
                 break;
             case 2:
                 if("Pair".equals(searchSames(handhold,i,aux)))
-                    setScoreString(6,aux,Compare(handhold,aux));
+                    setScore(6,aux,Compare(handhold,aux));
                 break;
             case 3: 
-                setScoreString(7,aux,Integer.MIN_VALUE);
+                setScore(7, aux, Integer.MIN_VALUE);
                 break;
         }
     }
     
-    public int Compare(int[][] handhold, int firstpair){
+    /**
+     *
+     * @param handhold
+     * @param firstpair
+     * @return
+     */
+    public int Compare(int[][] handhold, int firstpair) {
         int aux = 0;
-        for (int j = 0; j < handhold.length-1; j++) {
-            if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
+        for (int j = 0; j < handhold.length - 1; j++) {
+            if (firstpair != handhold[j][1] && handhold[j + 1][1] == handhold[j][1]) {
                 aux = handhold[j][1];
             }
         }
         return aux;
     }
-    public String searchSames(int [][] handhold,int i, int firstpair){
+
+    /**
+     *
+     * @param handhold
+     * @param i
+     * @param firstpair
+     * @return
+     */
+    public String searchSames(int[][] handhold, int i, int firstpair) {
         int count = 0, aux = 0, k = 0;
         String Play;
-        for (int j = 0; j < handhold.length-1; j++) {
-            if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
+        for (int j = 0; j < handhold.length - 1; j++) {
+            if (firstpair != handhold[j][1] && handhold[j + 1][1] == handhold[j][1]) {
                 aux = handhold[j][1];
                 k = j;
             }
         }
         for (int j = 0; j < handhold.length; j++) {
-            if(aux == handhold[j][1] && k!=j){
+            if (aux == handhold[j][1] && k != j) {
                 count++;
             }
         }
-        switch(count){
+        switch (count) {
             case 1:
                 Play = "Pair";
                 break;
@@ -177,58 +200,75 @@ public class Player {
         return Play;
     }
     
-    public void searchFlush(int[][] handhold, int i){
+    /**
+     *
+     * @param handhold
+     * @param i
+     */
+    public void searchFlush(int[][] handhold, int i) {
         int count = 0;
-        String Play ="";
+        String Play = "";
         int aux = handhold[i][0];
         for (int j = 0; j < handhold.length; j++) {
-            if(aux == handhold[j][0] && i!=j){
+            if (aux == handhold[j][0] && i != j) {
                 count++;
             }
         }
-        if(count == 4)
-            setScoreString(5,handhold[4][1],0);
+        if (count == 4) {
+            setScore(5, handhold[4][1], 0);
+    }
     }
     
-    public void searchStraight(int[][] handhold){
+    /**
+     *
+     * @param handhold
+     */
+    public void searchStraight(int[][] handhold) {
         int count = 0, colorcount = 0;
-        String Play ="";
-        for (int j = 0; j < handhold.length-1; j++) {
-            if(handhold[j][1]+1 == handhold[j+1][1]){
+        String Play = "";
+        for (int j = 0; j < handhold.length - 1; j++) {
+            if (handhold[j][1] + 1 == handhold[j + 1][1]) {
                 count++;
             }
-            if (handhold[j][0] == handhold[j+1][0]) {
+            if (handhold[j][0] == handhold[j + 1][0]) {
                 colorcount++;
             }
         }
-        if(count==4){
-            if(colorcount == 4){
-                setScoreString(8,handhold[4][1],Integer.MIN_VALUE);
+        if (count == 4) {
+            if (colorcount == 4) {
+                setScore(8, handhold[4][1], Integer.MIN_VALUE);
             }
-            setScoreString(4,handhold[4][1],Integer.MIN_VALUE);
+            setScore(4, handhold[4][1], Integer.MIN_VALUE);
         }
     }
     
-    public void searchRoyalStraight(int[][] handhold, boolean Royal,int suit){
+    /**
+     *
+     * @param handhold
+     * @param Royal
+     * @param suit
+     */
+    public void searchRoyalStraight(int[][] handhold, boolean Royal, int suit) {
         int count = 0;
-        String Play ="";
-        for (int j = 1; j < handhold.length-1; j++) {
-            if(handhold[j][1]+1 == handhold[j+1][1]){
+        String Play = "";
+        for (int j = 1; j < handhold.length - 1; j++) {
+            if (handhold[j][1] + 1 == handhold[j + 1][1]) {
                 count++;
-                if (handhold[j][0] == handhold[j+1][0] && suit == handhold[j][0]) {
+                if (handhold[j][0] == handhold[j + 1][0] && suit == handhold[j][0]) {
                     count++;
                 }
             }
         }
-        switch(count){
+        switch (count) {
             case 3:
-                setScoreString(4,handhold[0][1],Integer.MIN_VALUE);
+                setScore(4, handhold[0][1], Integer.MIN_VALUE);
                 break;
             case 6:
-                setScoreString(9,handhold[0][1],Integer.MIN_VALUE);
+                setScore(9, handhold[0][1], Integer.MIN_VALUE);
                 break;
         }
     }
+
     /**
      * Simple method to change isPlaying to its negative.<br>
      * For example:<br>
@@ -312,7 +352,8 @@ public class Player {
     public String[][] getHandhold_cards() {
         return handhold_cards;
     }
-    public int[] getScore(){
+
+    public int[] getScore() {
         return score;
     }
     
@@ -327,16 +368,26 @@ public class Player {
     public void setHandhold_cards(String[][] handhold_cards) {
         this.handhold_cards = handhold_cards;
     }
+    
     public void getScoreString(String[] ScoreString){
         this.ScoreString = ScoreString;
     }
+    
     public void setScore(int[] score){
         this.score = score;
     }
-    public void setScoreString(int hand, int firstvalue, int secondvalue){
+
+    /**
+     *
+     * @param hand
+     * @param firstvalue
+     * @param secondvalue
+     */
+    public void setScore(int hand, int firstvalue, int secondvalue) {
         String[] score_ = new String[3];
         int scoret = 0;
-        switch(hand){
+        
+        switch (hand) {
             case 0:
                 score_[0] = "High Card";
                 score_[1] = String.valueOf(firstvalue);
@@ -393,6 +444,7 @@ public class Player {
     
     public void setScore(String[] ScoreString){
         int[] score_ = new int [3];
+        
         switch(ScoreString[0]){
             case "High Card":
                 score_[0] = 0;
