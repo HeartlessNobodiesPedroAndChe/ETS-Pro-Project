@@ -395,6 +395,14 @@ public class Player {
     public String getScoreString(int i) {
         return ScoreString[i];
     }
+    
+    public boolean isSmallBlind() {
+        return this.isSmallBlind;
+    }
+    
+    public boolean isBigBling() {
+        return this.isBigBlind;
+    }
 
     public void setName(String name) {
         this.name = name;

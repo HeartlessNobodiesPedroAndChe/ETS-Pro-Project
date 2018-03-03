@@ -100,11 +100,13 @@ public class Game {
                     showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-                    playerBet(players[playingPlayerIndex]);
+                    
+                    // We show the Hand
                     System.out.println("You have a "+players[playingPlayerIndex].getScoreString(0)+" of "+players[playingPlayerIndex].getScoreString(1));
                     if(players[playingPlayerIndex].getScoreString(0).equals("Two Pairs")||players[playingPlayerIndex].getScoreString(0).equals("Full House")){
                         System.out.println(" And "+players[playingPlayerIndex].getScoreString(2));
                     }
+                    playerBet(players[playingPlayerIndex]);  
 
                     // Change to next Player
                     next_player();
