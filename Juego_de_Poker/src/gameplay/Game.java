@@ -83,10 +83,12 @@ public class Game {
     public void game_start() {
 
         while (inGame) {
-            // The gameplay is based on two rounds
+            
+            // We set who's gonna make small and big blind
             setSmallBlind();
             setBigBlind();
 
+            // The gameplay is based on two rounds
             for (int i = 0; i < 2; i++) {
 
                 for (Player player : players) {
@@ -108,8 +110,7 @@ public class Game {
     /**
      * This method check if playingPlayerIndex is higher than players
      * length.<br>
-     * If it is, it restarts to the very first player so we make sure every
-     * player plays.
+     * If it is, it restarts to the very first player so we make sure every player plays.
      */
     private void next_player() {
         if (playingPlayerIndex + 1 > players.length - 1) {
@@ -117,11 +118,12 @@ public class Game {
         } else {
             ++playingPlayerIndex;
         }
+        // A really big line break
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     /**
      * This method lets you replace the cards in the Player Object if chosen to.
-     *
      * @param p Player Object to manipulate.
      * @return p Player Object with changed values.
      * @see Player
@@ -162,12 +164,14 @@ public class Game {
                     p.setHandhold_cards(deck.change_cards(p.getHandhold_cards(), change));
                     System.out.println("\nThis is your new hand, " + p.getName());
                     System.out.println(p.showPlayerCards());
+                    // Dummy function so people now can read their cards
+                    System.out.print("Press Enter key to continue...");
+                    try{System.in.read();}catch(Exception e){};
                 }
 
             }
         } while (!answer.toLowerCase().matches("(y|n)"));
 
-        System.out.println("\nGood Luck!\n");
         return p;
     }
 
