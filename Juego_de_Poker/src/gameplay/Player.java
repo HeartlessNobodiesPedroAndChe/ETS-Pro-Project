@@ -79,27 +79,10 @@ public class Player {
      * ESCALERA REAL: ROYAL FLUSH
      */
     public int[][] reorderHandhold_cards (int[][] handhold){
-        // int aux = 0, exchange = 0;
-        // boolean organized = false;
-        // do{
-        // for (int i = 0; i < handhold.length; i++) {
-        //     for (int j = 1; j < handhold.length; j++) {
-        //         if(handhold[i][1] < handhold[j][1]){
-        //             aux = handhold[i][1];
-        //             handhold[i][1] = handhold[j][1];
-        //             handhold[j][1] = aux;
-        //             exchange++;
-        //         }
-        //     }
-        //     if (exchange == 0) {
-        //         organized = true;
-        //     }
-        // }
-        // exchange = 0;
-        // }while(!organized);
         Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1],o2[1]));
         return handhold;
     }
+    
     public String matchHands(){
         int[][] handhold = Deck.parseArray(handhold_cards);
         handhold = reorderHandhold_cards(handhold);
@@ -110,9 +93,9 @@ public class Player {
                 if(handhold[i][1]== handhold[i+1][1]){
                     Play = Player.this.searchSames(handhold,i);
                 }
-                if(handhold[i][1]+1 == handhold[i+1][1]){
-                    Play = searchFlush(handhold,i);
-                }
+                //if(handhold[i][1]+1 == handhold[i+1][1]){
+                   // Play = searchFlush(handhold,i);
+                //}
             }
         }
         return Play;
@@ -121,25 +104,25 @@ public class Player {
         int count = 0;
         String Play ="";
         int aux = handhold[i][1];
-        for (int j = 1; j < handhold.length; j++) {
-            if(aux == handhold[j][1]){
+        for (int j = 0; j < handhold.length; j++) {
+            if(aux == handhold[j][1] && i!=j){
                 count++;
             }
         }
         switch(count){
-            case 0:
+            case 1:
                 Play = "Pair";
                 if(Play.equals(searchSames(handhold,i,aux)))
                     Play = "Two Pairs";
                 if("Trio".equals(searchSames(handhold,i,aux)))
                     Play = "Full House";
                 break;
-            case 1:
+            case 2:
                 Play = "Three of a Kind";
                 if("Pair".equals(searchSames(handhold,i,aux)))
                     Play = "Full House";
                 break;
-            case 2: 
+            case 3: 
                 Play = "Poker";
                 break;
         }
@@ -147,18 +130,26 @@ public class Player {
     }
     
     public String searchSames(int [][] handhold,int i, int firstpair){
-        int count = 0;
-        String Play = "";
-        for (int j = 1; j < handhold.length; j++) {
-            if(firstpair == handhold[j][1]){
+        int count = 0, aux = 0, k = 0;
+        String Play;
+        for (int j = 0; j < handhold.length; j++) {
+            if (j+1 < handhold.length) {
+                if(firstpair != handhold[j][1] && handhold[j+1][1] == handhold[j][1]){
+                    aux = handhold[j][1];
+                    k = j;
+                }
+            }
+        }
+        for (int j = 0; j < handhold.length; j++) {
+            if(aux == handhold[j][1] && k!=j){
                 count++;
             }
         }
         switch(count){
-            case 0:
+            case 1:
                 Play = "Pair";
                 break;
-            case 1:
+            case 2:
                 Play = "Three of a Kind";
                 break;
             default: 
