@@ -94,9 +94,10 @@ public class Game {
                 for (Player player : players) {
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
+                    showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-
+                    playerBet(i + 1);
                     // Change to next Player
                     next_player();
                 }
@@ -293,20 +294,30 @@ public class Game {
         Scanner input = new Scanner(System.in);
 
         if (round == 1) {
-            System.out.println("\n" + players[playingPlayerIndex] + " how much money do you want to bet? ");
+            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
             double arbeloa = getMax_bet();
             setMax_bet(arbeloa + bet);
 
         } else if (round == 2) {
-            System.out.println("\n" + players[playingPlayerIndex] + " how much money do you want to bet? ");
+            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
             double arbeloa = getMax_bet();
             setMax_bet(arbeloa + bet);
         }
 
+    }
+
+    /**
+     * This method is used to distribute the winnings of the
+     * round to each player.
+     */
+    private void dist_Money() {
+       double timba = getMax_bet();
+       //When the round ends the winner will receive the winnings
+       
     }
 
     /**
