@@ -93,9 +93,9 @@ public class Game {
 
                 for (Player player : players) {
                     // Player
-                    System.out.println("\nPlayer '" + player.getName() + "', it's your turn:");
-                    changeHand(player);
-                    player.matchHands();
+                    System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
+                    changeHand(players[playingPlayerIndex]);
+                    players[playingPlayerIndex].matchHands();
 
                     // Change to next Player
                     next_player();
