@@ -71,7 +71,7 @@ public class Player {
      * Simple method to reorder the hand.
      *
      * @param handhold as <code>Integer[]</code>
-     * @return Orderder <code>Integer[]</code> of Handhol_cards
+     * @return Orderder <code>Integer[]</code> of Handhold_cards
      */
     public int[][] reorderHandhold_cards(int[][] handhold) {
         Arrays.sort(handhold, (int[] o1, int[] o2) -> Integer.compare(o1[1], o2[1]));
@@ -87,6 +87,7 @@ public class Player {
         String Play = "";
         boolean Royal = false;
         int count, aux = 0, suit = 0;
+        
         for (int i = 0; i < handhold.length - 1; i++) {
             if (handhold[i][1] == handhold[i + 1][1]) {
                 searchSames(handhold, i);
@@ -95,9 +96,11 @@ public class Player {
                 searchFlush(handhold, i);
             }
         }
+        
         if (handhold[0][1] + 1 == handhold[1][1]) {
             searchStraight(handhold);
         }
+        
         if (handhold[0][1] == 0 && handhold[1][1] == 9) {
             suit = handhold[0][0];
             if (handhold[0][0] == handhold[1][0]) {
@@ -105,6 +108,7 @@ public class Player {
             }
             searchRoyalStraight(handhold, Royal, suit);
         }
+        
         setScore(0, handhold[4][1], 0);
     }
 
@@ -118,6 +122,7 @@ public class Player {
         int[] score_ = new int[3];
         int Play;
         int aux = handhold[i][1];
+        
         for (int j = 0; j < handhold.length; j++) {
             if (aux == handhold[j][1] && i != j) {
                 count++;
