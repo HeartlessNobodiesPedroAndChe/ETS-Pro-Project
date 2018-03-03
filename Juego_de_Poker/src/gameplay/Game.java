@@ -286,7 +286,7 @@ public class Game {
      * Method that show player's money
      */
     private void showMoney() {
-        System.out.println("\n" + players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
+        System.out.println(players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
     }
     
     /**
@@ -295,28 +295,61 @@ public class Game {
      */
     private void playerBet(Player player) {
         Scanner input = new Scanner(System.in);
-        
+        boolean ok = true;
+        int bet;
+        // Dummy variable
+        String _bet;
+        //This If equals players to BigBlind and SmallBlind and shows their bets
         if (player == players[bigBlindIndex]) {
-            System.out.println("\n" + players[playingPlayerIndex].getName() + " actually your bet is " );
-        } else if (player == players[smallBlindIndex]) {
-            
-        }
-        /*
-        if (round == 1) {
-            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
-            double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
-            setMax_bet(getMax_bet() + bet);
-            
-        } else if (round == 2) {
-            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
-            double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
-            setMax_bet(getMax_bet() + bet);
-        }*/
+            double leeSin = big_blind;
+            System.out.println("'" + players[playingPlayerIndex].getName() + "' your currently bet is: " + leeSin + " $");
+            players[playingPlayerIndex].setMoney((players[playingPlayerIndex].getMoney() - leeSin));
+            System.out.println("Your currently money is: " + players[playingPlayerIndex].getMoney());
         
+        } else if (player == players[smallBlindIndex]) {
+            double leeSin = small_blind;
+            System.out.println("'" + players[playingPlayerIndex].getName() + "' your currently bet is: " + leeSin + " $");
+            players[playingPlayerIndex].setMoney((players[playingPlayerIndex].getMoney() - leeSin));
+            System.out.println("Your currently money is: " + players[playingPlayerIndex].getMoney());
+        }
+        
+        //Me falta hacer que despues de cada supuesto salte directamente a tu parte de código en el que pide
+        //la cantidad que desea apostar y que le diga cual es la apuesta más alta de la mesa ahora mismo
+        //para decidir si apuesta o no
+        
+        System.out.print("\n" + player.getName() + " how much money do you want to bet? ");
+        _bet = input.next();
+            
+        do {
+            
+            // We check if the input is a number
+            try {
+                bet = Integer.parseInt(_bet);
+                
+                // We check if the player can afford the bet
+                if (player.getMoney() >= bet) {
+                    player.setMoney(player.getMoney() - bet);
+                    setMax_bet(getMax_bet() + bet);
+                    ok = true;
+                } else {
+                    System.out.println("You don't have enough money to do that.");
+                    ok = false;
+                }
+        
+            } catch(NumberFormatException e) {
+                System.out.println("The bet must be a number.");
+                ok = false;
     }
     
+            if (!ok) {
+                System.out.print("\n" + player.getName() + " how much money do you want to bet? ");
+                _bet = input.next();
+            }
+
+        } while (!ok);
+
+    }
+
     /**
      * This method is used to distribute the winnings of the
      * round to each player.
@@ -337,7 +370,6 @@ public class Game {
 
     /**
      * Simple method to manually change boolean <code>inGame</code>.
-     *
      * @param inGame The boolean to change Game's inGame
      */
     public void setManualInGame(boolean inGame) {

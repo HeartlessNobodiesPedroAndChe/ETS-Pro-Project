@@ -69,7 +69,6 @@ public class Player {
 
     /**
      * Simple method to reorder the hand.
-     *
      * @param handhold as <code>Integer[]</code>
      * @return Orderder <code>Integer[]</code> of Handhold_cards
      */
