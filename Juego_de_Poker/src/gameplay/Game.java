@@ -132,6 +132,7 @@ public class Game {
         ArrayList<Integer> change = new ArrayList<>();
         String answer;
         Scanner scan = new Scanner(System.in);
+        boolean everything_is_aright = true;
         System.out.println("These are your cards:");
         System.out.println(p.showPlayerCards());
         System.out.print("Do you want to replace cards? (y/n): ");
@@ -152,6 +153,43 @@ public class Game {
 
                     // Split will get a whole String and separate it into an array by character in *.split(char)
                     String[] cardsIndexes = scan.nextLine().split(" ");
+                    
+                    // Checking Numbers
+                    do {
+                        
+                        // We declare a temp Integer for parsingChecker
+                        int cardIndex_;
+                        
+                        // Get every cardIndex
+                        for(String cardIndex: cardsIndexes) {
+                            
+                            // Try to parse and get errors
+                            try {
+                                cardIndex_ = Integer.parseInt(cardIndex);
+                                
+                                // Check values introduced
+                                if (cardIndex_ <= 0 || cardIndex_ > 5) {
+                                    System.out.println("You can't set values below 1 or above 5.");
+                                    everything_is_aright = false;
+                                } else {
+                                    everything_is_aright = true;
+                                }
+                                
+                            // Catching errors
+                            } catch(NumberFormatException e) {
+                                System.out.println("You can't write letters");
+                                everything_is_aright = false;
+                            }
+                        }
+                        
+                        // Repeating input
+                        if (!everything_is_aright) {
+                            System.out.print("Which ones do you want to replace? ");
+                            cardsIndexes = scan.nextLine().split(" ");
+                        }
+                    
+                    } while (!everything_is_aright);
+
 
                     // For-Loop will get every String in an array String
                     for (String cardIndex : cardsIndexes) {
@@ -163,6 +201,7 @@ public class Game {
                     p.setHandhold_cards(deck.change_cards(p.getHandhold_cards(), change));
                     System.out.println("\nThis is your new hand, " + p.getName());
                     System.out.println(p.showPlayerCards());
+                    
                     // Dummy function so people now can read their cards
                     System.out.print("Press Enter key to continue...");
                     try{System.in.read();}catch(Exception e){};
