@@ -5,7 +5,9 @@
  */
 package main;
 
-import deck.Deck;
+import gameplay.Deck;
+import gameplay.Game;
+import gameplay.Player;
 
 /**
  *
@@ -18,8 +20,17 @@ import deck.Deck;
 public class Main {
 
     public static void main(String[] args) {
+        
         // Initializating deck object
         Deck deck = new Deck();
+        
+        // Initializating Players
+        Player p1 = new Player(), p2 = new Player(), p3 = new Player(), p4 = new Player();
+        
+        // Initializating Game with Players and Deck
+        Game game = new Game(deck, p1, p2, p3, p4);
+        
+        game.game_start();
     }
 
 }
