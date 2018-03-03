@@ -84,16 +84,17 @@ public class Game {
 
         while (inGame) {
             // The gameplay is based on two rounds
-            for (int i = 0; i < 2; i++) {
+            for (int round = 1; round < 3; round++) {
                 
                 for (Player player : players) {
                     setSmallBlind();
                     setBigBlind();
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
+                    showMoney();
                     changeHand(players[playingPlayerIndex]);
                     players[playingPlayerIndex].matchHands();
-
+                    playerBet(round);
                     // Change to next Player
                     next_player();
                 }
@@ -218,6 +219,47 @@ public class Game {
             System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
             players[bigBlindIndex].setPlaying();
         }
+    }
+    
+    /**
+     * Method that show player's money
+     */
+    private void showMoney() {
+        System.out.println("\n" + players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
+    }
+    
+    /**
+     * This method asks the players how much they want to bet
+     * and add the bets in the variable <code>Max_bet <code>
+     */
+    private void playerBet(int round) {
+        Scanner input = new Scanner(System.in);
+        
+        if (round == 1) {
+            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
+            double bet = input.nextDouble();
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
+            double arbeloa = getMax_bet();
+            setMax_bet(arbeloa + bet); 
+            
+        } else if (round == 2) {
+            System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
+            double bet = input.nextDouble();
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
+            double arbeloa = getMax_bet();
+            setMax_bet(arbeloa + bet); 
+        }
+        
+    }
+    
+    /**
+     * This method is used to distribute the winnings of the
+     * round to each player.
+     */
+    private void dist_Money() {
+       double timba = getMax_bet();
+       //When the round ends the winner will receive the winnings
+       
     }
 
     public int RoundWinner (){
