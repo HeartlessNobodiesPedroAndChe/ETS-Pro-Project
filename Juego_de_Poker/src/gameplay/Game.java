@@ -10,13 +10,16 @@ import java.util.Random;
  * @author Suárez Delgado, Yared
  * @author Núñez Delgado, Eleazar
  * @author Borges Santamaría, Pedro
+ * @see Player
+ * @see Deck
  */
 public class Game {
 
+    // Variables
     private boolean inGame = false;
     private double bet = 0;
     private double max_bet = 0;
-    private double small_blind = 0;
+    private final double small_blind = 1;
     private final double big_blind = small_blind * 2;
     private int playingPlayerIndex;
     private int smallBlindIndex;
@@ -274,8 +277,8 @@ public class Game {
     public int RoundWinner() {
         int max = 0, WinnerIndex = 0;
         for (int i = 0; i < players.length; i++) {
-                
-            }
+            
+        }
         return WinnerIndex;
     }
 
@@ -287,7 +290,7 @@ public class Game {
     }
 
     /**
-     * This method asks the players how much they want to bet and add the bets
+     * This method asks the players how much they want to bet and add the bets 
      * in the variable <code>Max_bet <code>
      */
     private void playerBet(int round) {
@@ -296,16 +299,14 @@ public class Game {
         if (round == 1) {
             System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
-            double arbeloa = getMax_bet();
-            setMax_bet(arbeloa + bet);
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            setMax_bet(getMax_bet() + bet);
 
         } else if (round == 2) {
             System.out.println("\n" + players[playingPlayerIndex].getName() + " how much money do you want to bet? ");
             double bet = input.nextDouble();
-            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney()-bet);
-            double arbeloa = getMax_bet();
-            setMax_bet(arbeloa + bet);
+            players[playingPlayerIndex].setMoney(players[playingPlayerIndex].getMoney() - bet);
+            setMax_bet(getMax_bet() + bet);
         }
 
     }
@@ -317,7 +318,6 @@ public class Game {
     private void dist_Money() {
        double timba = getMax_bet();
        //When the round ends the winner will receive the winnings
-       
     }
 
     /**
@@ -344,10 +344,6 @@ public class Game {
 
     public void setMax_bet(double max_bet) {
         this.max_bet = max_bet;
-    }
-
-    public void setSmall_blind(double small_blind) {
-        this.small_blind = small_blind;
     }
 
     public boolean isInGame() {
