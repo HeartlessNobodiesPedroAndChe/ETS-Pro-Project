@@ -21,7 +21,8 @@ public class Player {
     private boolean isPlaying = false;
     private boolean isSmallBlind = false;
     private boolean isBigBlind = false;
-    private int score;
+    private int[] score;
+    private String[] ScoreString;
 
     /**
      * The empty constructor generates by default:<br>
@@ -352,7 +353,7 @@ public class Player {
         return handhold_cards;
     }
 
-    public int getScore() {
+    public int[] getScore() {
         return score;
     }
 
@@ -367,8 +368,12 @@ public class Player {
     public void setHandhold_cards(String[][] handhold_cards) {
         this.handhold_cards = handhold_cards;
     }
-
-    public void setScore(int score) {
+    
+    public void getScoreString(String[] ScoreString){
+        this.ScoreString = ScoreString;
+    }
+    
+    public void setScore(int[] score){
         this.score = score;
     }
 
@@ -381,6 +386,7 @@ public class Player {
     public void setScore(int hand, int firstvalue, int secondvalue) {
         String[] score_ = new String[3];
         int scoret = 0;
+        
         switch (hand) {
             case 0:
                 score_[0] = "High Card";
@@ -433,80 +439,106 @@ public class Player {
                 score_[2] = String.valueOf(secondvalue);
                 break;
         }
-        switch (score_[0]) {
+        this.ScoreString = score_;
+    }
+    
+    public void setScore(String[] ScoreString){
+        int[] score_ = new int [3];
+        
+        switch(ScoreString[0]){
             case "High Card":
-                if (score_[1] == "0") {
-                    scoret = 12;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 1);
+                score_[0] = 0;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[2]+1);
                 break;
             case "Pair":
-                if (score_[1] == "0") {
-                    scoret = 24;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 13);
+                score_[0] = 1;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[2] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[2]+1);
                 break;
 
             case "Two Pairs":
-                if (score_[1] == "0") {
-                    scoret = 36;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 25);
+                score_[0] = 2;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Three of a Kind":
-                if (score_[1] == "0") {
-                    scoret = 48;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 37);
+                score_[0] = 3;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Straight":
-                if (score_[1] == "0") {
-                    scoret = 60;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 49);
+                score_[0] = 4;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Flush":
-                if (score_[1] == "0") {
-                    scoret = 72;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 61);
+                score_[0] = 5;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Full":
-                if (score_[1] == "0") {
-                    scoret = 84;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 73);
+                score_[0] = 6;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Poker":
-                if (score_[1] == "0") {
-                    scoret = 96;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 85);
+                score_[0] = 7;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Straight Flush":
-                if (score_[1] == "0") {
-                    scoret = 108;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 97);
+                score_[0] = 8;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
             case "Royal Straight":
-                if (score_[1] == "0") {
-                    scoret = 120;
-                } else {
-                    scoret = Integer.parseInt(score_[1] + 109);
+                score_[0] = 9;
+                if("0".equals(score_[1])){
+                    score_[1] = 12;
+                }else{
+                    score_[1] = Integer.parseInt(ScoreString[1]+1);
                 }
+                score_[2] = Integer.parseInt(ScoreString[1]+1);
                 break;
         }
-        this.score = scoret;
+        this.score = score_;
     }
 
     public boolean getIsDealer() {

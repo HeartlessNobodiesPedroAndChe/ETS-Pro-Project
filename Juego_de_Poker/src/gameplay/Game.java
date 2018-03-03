@@ -108,8 +108,7 @@ public class Game {
     }
 
     /**
-     * This method check if playingPlayerIndex is higher than players
-     * length.<br>
+     * This method check if playingPlayerIndex is higher than players length.<br>
      * If it is, it restarts to the very first player so we make sure every player plays.
      */
     private void next_player() {
@@ -235,11 +234,8 @@ public class Game {
     public int RoundWinner() {
         int max = 0, WinnerIndex = 0;
         for (int i = 0; i < players.length; i++) {
-            if (max < players[i].getScore()) {
-                max = players[i].getScore();
-                WinnerIndex = i;
+                
             }
-        }
         return WinnerIndex;
     }
 
