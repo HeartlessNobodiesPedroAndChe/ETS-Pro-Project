@@ -12,6 +12,8 @@ import java.util.Arrays;
  * @author Núñez Delgado, Eleazar
  * @author Borges Santamaría, Pedro
  * @see Deck
+ * @see Game
+ * @see ArrayList
  */
 public class Player {
 
@@ -33,13 +35,12 @@ public class Player {
      * {@code isDealer = false;}<br>
      * {@code isPlaying = false;}
      */
-    public Player() {
-    }
+    public Player() {}
 
     /**
-     * This constructor generates by default:<br>      {@code isDealer = false;}
+     * This constructor generates by default:<br>
+     * {@code isDealer = false;}<br>
      * {@code isPlaying = false;}
-     *
      * @param name The name of the Player
      * @param money The amount richness
      * @param handhold_cards The cards this Player owns
@@ -52,8 +53,6 @@ public class Player {
 
     /**
      * Show player's card with Suit and Number.<br>
-     * This method is just for testing, will be deprecated ASAP.
-     *
      * @return Cheats as <code>String[][]</code>.
      */
     public String showPlayerCards() {
