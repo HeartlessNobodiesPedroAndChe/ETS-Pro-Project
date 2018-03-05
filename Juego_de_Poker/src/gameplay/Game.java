@@ -17,7 +17,6 @@ public class Game {
 
     // Variables
     private boolean inGame = false;
-    private double bet = 0;
     private double max_bet = 0;
     private final double small_blind = 1;
     private final double big_blind = small_blind * 2;
@@ -97,14 +96,27 @@ public class Game {
                 for (Player player : players) {
                     // Player
                     System.out.println("\nPlayer '" + players[playingPlayerIndex].getName() + "', it's your turn:");
-                    showMoney();
-                    changeHand(players[playingPlayerIndex]);
-                    players[playingPlayerIndex].matchHands();
                     
                     // We show the Hand
-                    System.out.println("You have a "+players[playingPlayerIndex].getScoreString(0)+" of "+players[playingPlayerIndex].getScoreString(1));
+                    players[playingPlayerIndex].matchHands();
+                    System.out.print("You have a "+players[playingPlayerIndex].getScoreString(0)+" of "+players[playingPlayerIndex].getScoreString(1));
                     if(players[playingPlayerIndex].getScoreString(0).equals("Two Pairs")||players[playingPlayerIndex].getScoreString(0).equals("Full House")){
-                        System.out.println(" And "+players[playingPlayerIndex].getScoreString(2));
+                        System.out.println(" and "+players[playingPlayerIndex].getScoreString(2));
+                    } else {
+                        System.out.println("");
+                    }
+                    
+                    // We show money and asks for changing cards
+                    showMoney(playingPlayerIndex);
+                    changeHand(players[playingPlayerIndex]);
+
+                    // We show the new Hand
+                    players[playingPlayerIndex].matchHands();
+                    System.out.print("You have a "+players[playingPlayerIndex].getScoreString(0)+" of "+players[playingPlayerIndex].getScoreString(1));
+                    if(players[playingPlayerIndex].getScoreString(0).equals("Two Pairs")||players[playingPlayerIndex].getScoreString(0).equals("Full House")){
+                        System.out.println(" and "+players[playingPlayerIndex].getScoreString(2));
+                    } else {
+                        System.out.println("");
                     }
                     playerBet(players[playingPlayerIndex]);  
 
@@ -213,9 +225,6 @@ public class Game {
                     System.out.println("\nThis is your new hand, " + p.getName());
                     System.out.println(p.showPlayerCards());
                     
-                    // Dummy function so people now can read their cards
-                    System.out.print("Press Enter key to continue...");
-                    try{System.in.read();}catch(Exception e){};
                 }
 
             }
@@ -242,27 +251,68 @@ public class Game {
     }
 
     /**
-     * Asks for small blind to the player next to the Dealer.
+     * Asks for small blind to the player next to the Dealer and manage its bet.
      */
     private void setSmallBlind() {
+        Scanner input = new Scanner(System.in);
+        String answer;
+        
         // We check if players[playingPlayerIndex + 1] exists and give it the attribute boolean SmallBlind
         smallBlindIndex = playingPlayerIndex + 1;
         if (smallBlindIndex > players.length - 1) {
             smallBlindIndex = 0;
             players[smallBlindIndex].set_SmallBlind();
-            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            System.out.println("Player '" + players[smallBlindIndex].getName() + "' you must set the Small Blind:");
             players[smallBlindIndex].setPlaying();
         } else {
             players[smallBlindIndex].set_SmallBlind();
-            System.out.println("Player " + players[smallBlindIndex].getName() + " you must set the Small Blind:");
+            System.out.println("Player '" + players[smallBlindIndex].getName() + "' you must set the Small Blind:");
             players[smallBlindIndex].setPlaying();
         }
+        
+        // Asking if Player will play
+        System.out.print("The Small Blind is " + small_blind + ", do you bet? (y/n) ");
+        do {
+            answer = input.next().toLowerCase();
+            
+            // Checking pattern
+            if (!answer.matches("(y|n)")) {
+                System.out.print("The answer must be 'y' or 'n': ");
+            } else {
+                
+                // Checking if the Player agrees with small_blind
+                if (answer.equals("y")) {
+                    // Checking if the Player has enough money
+                    if (players[smallBlindIndex].getMoney() >= small_blind) {
+                        players[smallBlindIndex].setMoney(players[smallBlindIndex].getMoney() - small_blind);
+                        players[smallBlindIndex].setBet(small_blind);
+                        System.out.println("Your bet is now " + players[smallBlindIndex].getBet());
+                        showMoney(smallBlindIndex);
+                    } else {
+                        System.out.println("You don't have enough money to play.");
+                        // Some code //
+                        // We set Playing attribute False
+                        players[smallBlindIndex].setPlaying();
+                    }
+                } else {
+                    // Some code //
+                    // We set Playing attribute False
+                    players[smallBlindIndex].setPlaying();
+                }
+                
+            }
+            
+        } while (!answer.matches("(y|n)"));
+        
     }
 
     /**
-     * Asks for small blind to the player next to the Small Blind Player.
+     * Asks for small blind to the player next to the Small Blind Player and manage its bet.
      */
     private void setBigBlind() {
+        Scanner input = new Scanner(System.in);
+        String answer;
+        
         // We check if players[playingPlayerIndex + 2] exists and give it the attribute boolean BigBlind
         bigBlindIndex = smallBlindIndex + 1;
         if (bigBlindIndex > players.length - 1) {
@@ -275,12 +325,47 @@ public class Game {
             System.out.println("Player " + players[bigBlindIndex].getName() + " you must set the Big Blind:");
             players[bigBlindIndex].setPlaying();
         }
+        
+        // Asking if Player will play
+        System.out.print("The Big Blind is " + big_blind + ", do you bet? (y/n) ");
+        do {
+            answer = input.next().toLowerCase();
+            
+            // Checking pattern
+            if (!answer.matches("(y|n)")) {
+                System.out.print("The answer must be 'y' or 'n': ");
+            } else {
+                
+                // Checking if the Player agrees with small_blind
+                if (answer.equals("y")) {
+                    // Checking if the Player has enough money
+                    if (players[bigBlindIndex].getMoney() >= big_blind) {
+                        players[bigBlindIndex].setMoney(players[bigBlindIndex].getMoney() - big_blind);
+                        players[bigBlindIndex].setBet(big_blind);
+                        System.out.println("Your bet is now " + players[bigBlindIndex].getBet());
+                        showMoney(bigBlindIndex);
+                    } else {
+                        System.out.println("You don't have enough money to play.");
+                        // Some code //
+                        // We set Playing attribute False
+                        players[bigBlindIndex].setPlaying();
+                    }
+                } else {
+                    // Some code //
+                    // We set Playing attribute False
+                    players[bigBlindIndex].setPlaying();
+                }
+                
+            }
+            
+        } while (!answer.matches("(y|n)"));
+        
     }
 
     public int RoundWinner (){
         ArrayList<Integer> WinnerIndexes = new ArrayList<>();
-        ArrayList<Integer> WinnerIndexes_ = new ArrayList<>();
         int max = 0, WinnerIndex = 0;
+        
         for (int i = 0; i < players.length; i++) {
             if(max < players[i].getScore(0)){
                 max = players[i].getScore(0);
@@ -292,24 +377,26 @@ public class Game {
         }
         
         max = 0;
-            if(WinnerIndexes.size() > 1){
-                for (int i = 0; i < WinnerIndexes.size(); i++) {
-                    if(max < players[WinnerIndexes.get(i)].getScore(1)){
-                        max = players[WinnerIndexes.get(i)].getScore(1);
-                        WinnerIndex = WinnerIndexes.get(i);
-                    }
+        
+        if(WinnerIndexes.size() > 1){
+            for (int i = 0; i < WinnerIndexes.size(); i++) {
+                if(max < players[WinnerIndexes.get(i)].getScore(1)){
+                    max = players[WinnerIndexes.get(i)].getScore(1);
+                    WinnerIndex = WinnerIndexes.get(i);
                 }
-            }else{
-                WinnerIndex = WinnerIndexes.get(0);
             }
+        }else{
+            WinnerIndex = WinnerIndexes.get(0);
+        }
         return WinnerIndex;
     }
             
     /**
-     * Method that show player's money
+     * Method that show player's money.
+     * @param index The index of the player to show money.
      */
-    private void showMoney() {
-        System.out.println(players[playingPlayerIndex].getName() + " your money balance is: " + players[playingPlayerIndex].getMoney() + "\n");
+    private void showMoney(int index) {
+        System.out.println(players[index].getName() + " your money balance is: " + players[index].getMoney() + "\n");
     }
 
     /**
@@ -318,7 +405,7 @@ public class Game {
      */
     private void playerBet(Player player) {
         Scanner input = new Scanner(System.in);
-        boolean ok = true;
+        boolean ok;
         int bet;
         // Dummy variable
         String _bet;
@@ -384,20 +471,12 @@ public class Game {
         this.inGame = inGame;
     }
 
-    public void setBet(double bet) {
-        this.bet = bet;
-    }
-
     public void setMax_bet(double max_bet) {
         this.max_bet = max_bet;
     }
 
     public boolean isInGame() {
         return inGame;
-    }
-
-    public double getBet() {
-        return bet;
     }
 
     public double getMax_bet() {
