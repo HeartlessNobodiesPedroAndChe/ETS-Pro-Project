@@ -218,7 +218,6 @@ public class Player {
      */
     public void searchFlush(int[][] handhold, int i) {
         int count = 0;
-        String Play = "";
         int aux = handhold[i][0];
         
         for (int j = 0; j < handhold.length; j++) {
@@ -238,7 +237,6 @@ public class Player {
      */
     public void searchStraight(int[][] handhold) {
         int count = 0, colorcount = 0;
-        String Play = "";
         
         for (int j = 0; j < handhold.length - 1; j++) {
             if (handhold[j][1] + 1 == handhold[j + 1][1]) {
@@ -265,7 +263,6 @@ public class Player {
      */
     public void searchRoyalStraight(int[][] handhold, boolean Royal, int suit) {
         int count = 0, colorcount = 0;
-        String Play = "";
         
         for (int j = 1; j < handhold.length - 1; j++) {
             if (handhold[j][1] + 1 == handhold[j + 1][1]) {
