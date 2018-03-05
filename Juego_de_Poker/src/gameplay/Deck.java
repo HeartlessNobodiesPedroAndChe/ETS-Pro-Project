@@ -149,7 +149,7 @@ public class Deck {
      * It gets {@code handhold_cards[][]} as {@code String[][]}
      * and returns it as {@code int[][]}.
      * @param handhold_cards The array to change.
-     * @return handhold_cards as <code>String[][]</code>
+     * @return handhold_cards as <code>String[][]</code>.
      */
     public static String[][] parseArray(int[][] handhold_cards) {
         String[][] parsed_cards = new String[handhold_cards.length][2];
@@ -199,7 +199,7 @@ public class Deck {
      * It gets {@code handhold_cards[][]} as {@code int[][]}
      * and returns it as {@code String[][]}.
      * @param handhold_cards The array to change.
-     * @return handhold_cards as <code>String[][]</code>
+     * @return handhold_cards as <code>String[][]</code>.
      */
     public static int[][] parseArray(String[][] handhold_cards) {
         int[][] parsed_cards = new int[handhold_cards.length][2];
@@ -247,10 +247,10 @@ public class Deck {
     
     /**
      * Simple method to get Suit Name by Number.
-     * @param suit The suit number as <code>Integer</code>
-     * @return SuitName as <code>String</code>
+     * @param suit The suit number as <code>Integer</code>.
+     * @return SuitName as <code>String</code>.
      */
-    private String setSuit(int suit) {
+    protected static String setSuit(int suit) {
         String suitName = "";
         
         // Then we set that suit with real value
@@ -272,32 +272,89 @@ public class Deck {
     }
     
     /**
-     * Simple method to get Card Name by Number.
-     * @param suit The suit number as <code>Integer</code>
-     * @return CardName as <code>String</code>
+     * Simple method to get Card Name by CardNumber and SuitNumber.
+     * @param suit The suit number as <code>Integer</code>.
+     * @param card The card number as <code>Integer</code>.
+     * @return CardName as <code>String</code>.
      */
     private String setCard(int suit, int card) {
-        String CardName;
+        String cardName;
 
         switch ( deck.get(suit).get(card) ) {
             case 0:
-                CardName = "Ace";
+                cardName = "Ace";
                 break;
             case 10:
-                CardName = "Jack";
+                cardName = "Jack";
                 break;
             case 11:
-                CardName = "Queen";
+                cardName = "Queen";
                 break;
             case 12:
-                CardName = "King";
+                cardName = "King";
                 break;
             // Default will get any other value (2 - 10)
             default:
-                CardName = Integer.toString(deck.get(suit).get(card) + 1);
+                cardName = Integer.toString(deck.get(suit).get(card) + 1);
         }
             
-        return CardName;
+        return cardName;
+    }
+    
+    /**
+     * Simple method to get Card Name by Number.
+     * @param card The card number as <code>Integer</code>.
+     * @return CardName as <code>String</code>.
+     */
+    protected static String setCard(int card) {
+        String cardName;
+        
+        switch( card ) {
+            case 0:
+                cardName = "Ace";
+                break;
+            case 10:
+                cardName = "Jack";
+                break;
+            case 11:
+                cardName = "Queen";
+                break;
+            case 12:
+                cardName = "King";
+                break;
+            default:
+                cardName = Integer.toString(card + 1);
+        }
+        
+        return cardName;
+    }
+    
+    /**
+     * Method to get Card Number by Card Name.
+     * @param card The name of the card.
+     * @return The card Number of <code>card</code> as <code>Integer</code>.
+     */
+    protected static int setCard(String card) {
+        int cardNumber;
+        
+        switch ( card ) {
+            case "Ace":
+                cardNumber = 0;
+                break;
+            case "Jack":
+                cardNumber = 10;
+                break;
+            case "Queen":
+                cardNumber = 11;
+                break;
+            case "King":
+                cardNumber = 12;
+                break;
+            default:
+                cardNumber = Integer.parseInt(card) - 1;
+        }
+        
+        return cardNumber;
     }
     
     /**

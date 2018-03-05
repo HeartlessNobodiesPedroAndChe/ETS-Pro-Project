@@ -3,7 +3,9 @@ package gameplay;
 import java.util.Arrays;
 
 /**
- * Class to set players and manage Gameplay.
+ * This Class creates a Player and manage its variables such as<br>
+ * {@code name, money, handhold_cards, isDealer, is Playing...}<br>
+ * Its functionality is based on creating Players and manage 
  *
  * @author Becerra Gutiérrez, Jesús Daniel
  * @author Suárez Delgado, Yared
@@ -27,7 +29,8 @@ public class Player {
 
     /**
      * The empty constructor generates by default:<br>
-     * {@code double money = 10;}<br> {@code isDealer = false;}<br>
+     * {@code double money = 10;}<br>
+     * {@code isDealer = false;}<br>
      * {@code isPlaying = false;}
      */
     public Player() {
@@ -71,7 +74,6 @@ public class Player {
 
     /**
      * Simple method to reorder the hand.
-     *
      * @param handhold as <code>Integer[]</code>
      * @return Orderder <code>Integer[]</code> of Handhold_cards
      */
@@ -84,11 +86,9 @@ public class Player {
      *
      */
     public void matchHands() {
-        int[][] handhold = Deck.parseArray(handhold_cards);
-        handhold = reorderHandhold_cards(handhold);
-        String Play = "";
-        boolean Royal = false;
-        int count = 0, aux = 0, suit = 0;
+        int[][] handhold = reorderHandhold_cards(Deck.parseArray(handhold_cards));
+        boolean royal = false;
+        int suit;
         
         if (handhold[0][1] == 0) {
             setScoreString(0, handhold[0][1], 0);
@@ -112,9 +112,9 @@ public class Player {
         if (handhold[0][1] == 0 && handhold[1][1] == 9) {
             suit = handhold[0][0];
             if (handhold[0][0] == handhold[1][0]) {
-                Royal = true;
+                royal = true;
             }
-            searchRoyalStraight(handhold, Royal, suit);
+            searchRoyalStraight(handhold, royal, suit);
         }
     }
     
@@ -296,7 +296,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isPlaying</code>.
-     *
      * @param isPlaying The boolean to change Payer's isPlaying
      */
     public void setManualPlaying(boolean isPlaying) {
@@ -314,7 +313,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isDealer</code>.
-     *
      * @param isDealer The boolean to change Payer's isDealer
      */
     public void setManualDealer(boolean isDealer) {
@@ -333,7 +331,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isSmallBlind</code>.
-     *
      * @param isSmallBlind The boolean to change Player's isSmallBlind
      */
     public void setManualSmallBlind(boolean isSmallBlind) {
@@ -351,7 +348,6 @@ public class Player {
 
     /**
      * Simple method to manually change boolean <code>isBigBlind</code>.
-     *
      * @param isBigBlind The boolean to change Player's isBigBlind
      */
     public void setManualBigBlind(boolean isBigBlind) {
@@ -423,45 +419,15 @@ public class Player {
     /**
      * 
      * @param hand
-     * @param firstvalue
-     * @param secondvalue 
+     * @param firstValue
+     * @param secondValue 
      */
-    public void setScoreString(int hand, int firstvalue, int secondvalue) {
+    public void setScoreString(int hand, int firstValue, int secondValue) {
         String[] score_ = new String[3];
-
-        switch (firstvalue) {
-            case 0:
-                score_[1] = "Ace";
-                break;
-            case 10:
-                score_[1] = "Jack";
-                break;
-            case 11:
-                score_[1] = "Queen";
-                break;
-            case 12:
-                score_[1] = "King";
-                break;
-            default:
-                score_[1] = String.valueOf(firstvalue + 1);
-        }
         
-        switch (secondvalue) {
-            case 0:
-                score_[2] = "Ace";
-                break;
-            case 10:
-                score_[2] = "Jack";
-                break;
-            case 11:
-                score_[2] = "Queen";
-                break;
-            case 12:
-                score_[2] = "King";
-                break;
-            default:
-                score_[2] = String.valueOf(secondvalue + 1);
-        }
+        // We take card name by card number
+        score_[1] = Deck.setCard(firstValue);
+        score_[2] = Deck.setCard(secondValue);
         
         switch (hand) {
             case 0:
@@ -501,6 +467,34 @@ public class Player {
     }
     
     /**
+     * Simple method to parse Card Name into Score Value.
+     * @param value The value to parse into Score.
+     * @return The Score value as <code>Integer</code>.
+     */
+    private int setScoreValue(String value) {
+        int scoreValue;
+        
+        switch ( value ) {
+            case "Ace":
+                scoreValue = 13;
+                break;
+            case "Jack":
+                scoreValue = 10;
+                break;
+            case "Queen":
+                scoreValue = 11;
+                break;
+            case "King":
+                scoreValue = 12;
+                break;
+            default:
+                scoreValue = Integer.valueOf(value);
+        }
+        
+        return scoreValue;
+    }
+    
+    /**
      * 
      * @param ScoreString 
      */
@@ -510,150 +504,26 @@ public class Player {
         switch (ScoreString[0]) {
             case "High Card":
                 score_[0] = 0;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Pair":
                 score_[0] = 1;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
 
             case "Two Pairs":
                 score_[0] = 2;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Three of a Kind":
                 score_[0] = 3;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Straight":
@@ -668,189 +538,35 @@ public class Player {
                 
             case "Flush":
                 score_[0] = 5;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Full":
                 score_[0] = 6;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Poker":
                 score_[0] = 7;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Straight Flush":
                 score_[0] = 8;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
                 
             case "Royal Straight":
                 score_[0] = 9;
-                switch (ScoreString[1]) {
-                    case "Ace":
-                        score_[1] = 13;
-                        break;
-                    case "Jack":
-                        score_[1] = 10;
-                        break;
-                    case "Queen":
-                        score_[1] = 11;
-                        break;
-                    case "King":
-                        score_[1] = 12;
-                        break;
-                    default:
-                        score_[1] = Integer.valueOf(ScoreString[1]);
-                }
-                
-                switch (ScoreString[2]) {
-                    case "Ace":
-                        score_[2] = 13;
-                        break;
-                    case "Jack":
-                        score_[2] = 10;
-                        break;
-                    case "Queen":
-                        score_[2] = 11;
-                        break;
-                    case "King":
-                        score_[2] = 12;
-                        break;
-                    default:
-                        score_[2] = Integer.valueOf(ScoreString[2]);
-                }
+                score_[1] = setScoreValue(ScoreString[1]);
+                score_[2] = setScoreValue(ScoreString[2]);
                 break;
         }
+        
         this.score = score_;
     }
 
