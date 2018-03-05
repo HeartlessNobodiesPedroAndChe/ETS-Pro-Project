@@ -130,7 +130,7 @@ public class Player {
                 if("Pair".equals(searchSames(handhold,i,aux))){
                     setScoreString(2,aux,Compare(handhold, aux));
                 }
-                if("Trio".equals(searchSames(handhold,i,aux))){
+                if("Three of a Kind".equals(searchSames(handhold,i,aux))){
                     setScoreString(6,aux,Compare(handhold,aux));
                 }
                 break;
