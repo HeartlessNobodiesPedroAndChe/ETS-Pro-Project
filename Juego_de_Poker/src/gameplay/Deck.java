@@ -363,13 +363,9 @@ public class Deck {
      * Where first ArrayList is Suit and the one inside is Card.
      * @return deck as <code>{@literal ArrayList<ArrayList<Integer>>}</code>
      */
-    public ArrayList<ArrayList<Integer>> getDeck() {
-        return deck;
-    }
+    public ArrayList<ArrayList<Integer>> getDeck(){return deck;}
     
     @Override
-    public String toString() {
-        return deck.toString();
-    }
+    public String toString(){return deck.toString();}
     
 }

@@ -459,36 +459,22 @@ public class Game {
      * For example:<br> {@code if inGame == true; inGame = false;}<br>
      * {@code if inGame == false; inGame = true;}
      */
-    public void setInGame() {
-        inGame = !inGame;
-    }
+    public void setInGame() {inGame = !inGame;}
 
     /**
      * Simple method to manually change boolean <code>inGame</code>.
      * @param inGame The boolean to change Game's inGame
      */
-    public void setManualInGame(boolean inGame) {
-        this.inGame = inGame;
-    }
+    public void setManualInGame(boolean inGame) {this.inGame = inGame;}
 
-    public void setMax_bet(double max_bet) {
-        this.max_bet = max_bet;
-    }
+    public void setMax_bet(double max_bet) {this.max_bet = max_bet;}
 
-    public boolean isInGame() {
-        return inGame;
-    }
+    public boolean isInGame() {return inGame;}
 
-    public double getMax_bet() {
-        return max_bet;
-    }
+    public double getMax_bet() { return max_bet;}
 
-    public double getSmall_blind() {
-        return small_blind;
-    }
+    public double getSmall_blind(){return small_blind;}
 
-    public double getBig_blind() {
-        return big_blind;
-    }
+    public double getBig_blind(){return big_blind;}
 
 }

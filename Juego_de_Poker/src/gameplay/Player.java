@@ -286,34 +286,26 @@ public class Player {
      * For example:<br> {@code if isPlaying == true; isPlaying = false;}<br>
      * {@code if isPlaying == false; isPlaying = true;}
      */
-    public void setPlaying() {
-        isPlaying = !isPlaying;
-    }
+    public void setPlaying() {isPlaying = !isPlaying;}
 
     /**
      * Simple method to manually change boolean <code>isPlaying</code>.
      * @param isPlaying The boolean to change Payer's isPlaying
      */
-    public void setManualPlaying(boolean isPlaying) {
-        this.isPlaying = isPlaying;
-    }
+    public void setManualPlaying(boolean isPlaying) {this.isPlaying = isPlaying;}
 
     /**
      * Simple method to change isPlaying to its negative.<br>
      * For example:<br> {@code if isDealer == true; isDealer = false;}<br>
      * {@code if isDealer == false; isDealer = true;}
      */
-    public void setDealer() {
-        isDealer = !isDealer;
-    }
+    public void setDealer() {isDealer = !isDealer;}
 
     /**
      * Simple method to manually change boolean <code>isDealer</code>.
      * @param isDealer The boolean to change Payer's isDealer
      */
-    public void setManualDealer(boolean isDealer) {
-        this.isDealer = isDealer;
-    }
+    public void setManualDealer(boolean isDealer) {this.isDealer = isDealer;}
 
     /**
      * Simple method to change isPlaying to its negative.<br>
@@ -321,96 +313,36 @@ public class Player {
      * {@code if isSmallBlind == true; isSmallBlind = false;}<br>
      * {@code if isSmallBlind == false; isSmallBlind = true;}
      */
-    public void set_SmallBlind() {
-        isSmallBlind = !isSmallBlind;
-    }
+    public void set_SmallBlind() {isSmallBlind = !isSmallBlind;}
 
     /**
      * Simple method to manually change boolean <code>isSmallBlind</code>.
      * @param isSmallBlind The boolean to change Player's isSmallBlind
      */
-    public void setManualSmallBlind(boolean isSmallBlind) {
-        this.isSmallBlind = isSmallBlind;
-    }
+    public void setManualSmallBlind(boolean isSmallBlind) {this.isSmallBlind = isSmallBlind;}
 
     /**
      * Simple method to change isPlaying to its negative.<br>
      * For example:<br> {@code if isBigBlind == true; isBigBlind = false;}<br>
      * {@code if isBigBlind == false; isBigBlind = true;}
      */
-    public void set_BigBlind() {
-        isBigBlind = !isBigBlind;
-    }
+    public void set_BigBlind() {isBigBlind = !isBigBlind;}
 
     /**
      * Simple method to manually change boolean <code>isBigBlind</code>.
      * @param isBigBlind The boolean to change Player's isBigBlind
      */
-    public void setManualBigBlind(boolean isBigBlind) {
-        this.isBigBlind = isBigBlind;
-    }
+    public void setManualBigBlind(boolean isBigBlind) {this.isBigBlind = isBigBlind;}
 
-    public String getName() {
-        return name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public double getMoney() {
-        return money;
-    }
+    public void setMoney(double money) {this.money = money;}
 
-    public String[][] getHandhold_cards() {
-        return handhold_cards;
-    }
+    public void setHandhold_cards(String[][] handhold_cards) {this.handhold_cards = handhold_cards;}
 
-    public int[] getScore() {
-        return score;
-    }
+    public void setScore(int[] score) {this.score = score;}
     
-    /**
-     * 
-     * @param i
-     * @return 
-     */
-    public int getScore(int i) {
-        return score[i];
-    }
-
-    public String[] getScoreString() {
-        return ScoreString;
-    }
-    
-    /**
-     * 
-     * @param i
-     * @return 
-     */
-    public String getScoreString(int i) {
-        return ScoreString[i];
-    }
-    
-    public boolean isSmallBlind() {
-        return this.isSmallBlind;
-    }
-    
-    public boolean isBigBling() {
-        return this.isBigBlind;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public void setHandhold_cards(String[][] handhold_cards) {
-        this.handhold_cards = handhold_cards;
-    }
-
-    public void setScore(int[] score) {
-        this.score = score;
-    }
+    public void setBet(double bet) {this.bet = bet;}
     
     /**
      * 
@@ -566,16 +498,36 @@ public class Player {
         this.score = score_;
     }
 
-    public void setBet(double bet) {
-        this.bet = bet;
-    }
+    public String getName() {return name;}
 
-    public boolean getIsDealer() {
-        return isDealer;
-    }
+    public double getMoney() {return money;}
 
-    public double getBet() {
-        return bet;
-    }
+    public String[][] getHandhold_cards() {return handhold_cards;}
+
+    public int[] getScore() {return score;}
+    
+    /**
+     * 
+     * @param i
+     * @return 
+     */
+    public int getScore(int i) {return score[i];}
+
+    public String[] getScoreString() {return ScoreString;}
+    
+    /**
+     * 
+     * @param i
+     * @return 
+     */
+    public String getScoreString(int i) {return ScoreString[i];}
+    
+    public boolean isSmallBlind() {return this.isSmallBlind;}
+    
+    public boolean isBigBling() {return this.isBigBlind;}
+
+    public boolean getIsDealer() {return isDealer;}
+
+    public double getBet() {return bet;}
 
 }
