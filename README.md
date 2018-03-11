@@ -3,15 +3,9 @@
 
 ### ---- Español de Aquí pa'bajo ----
 # Proyecto Base
-El plan es hacer un juego de póker con interfaz gráfica, lo primero será terminar las siguientes tareas:
+El proyecto está basado en los siguientes campos:
 
-* Baraja digital basada en arrays (Básicamente para evitar que se repitan cartas).
-
-* Las figuras (jugadas) y su sistema de detección (intentemos optimizar todo lo que podamos esta parte a.k.a 'No basarlo todo en if statement').
-
-* El sistema de juego (primera habrá que decidir si contra la máquina o contra otra persona).
-
-* Interfaz gráfica para hacer el sistema más ameno (básicamente será pasar de consola a interfaz).
+* Baraja digital hecha con un ArrayList 2D (Clase Deck) capaz de obtener los valores como Integer y parsearlos a String (Palo y Valor).
 
 ## ¡¡Ánimo a todos!!
 
